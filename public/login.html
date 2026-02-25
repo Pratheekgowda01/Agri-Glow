@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Agri Glow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #00e676 0%, #00c853 50%, #009688 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Soft glowing background animation */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0,255,136,0.3) 0%, transparent 70%);
+      top: -100px;
+      left: -100px;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: glow 6s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: "";
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(0,200,255,0.25) 0%, transparent 70%);
+      bottom: -100px;
+      right: -120px;
+      border-radius: 50%;
+      filter: blur(100px);
+      animation: glow 8s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes glow {
+      from { transform: scale(1); opacity: 0.8; }
+      to { transform: scale(1.2); opacity: 0.6; }
+    }
+
+    .login-container {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0, 200, 150, 0.4);
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-4px);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h1 {
+      color: #009688;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+    }
+
+    .login-header p {
+      color: #444;
+      font-size: 0.95rem;
+    }
+
+    .form-group { margin-bottom: 1.5rem; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e1e1;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #00c853;
+      box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #00e676, #00c853);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4);
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(90deg, #00c853, #009688);
+      box-shadow: 0 6px 20px rgba(0, 200, 83, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .password-input { position: relative; }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .toggle-password:hover { opacity: 1; }
+
+    .alert {
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      display: none;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .alert.error {
+      background: #ffe6e6;
+      color: #cc0000;
+      border: 1px solid #ffb3b3;
+    }
+
+    .alert.success {
+      background: #e8ffe8;
+      color: #007f33;
+      border: 1px solid #a3f1a3;
+    }
+
+    .alert.info {
+      background: #e6faff;
+      color: #007f99;
+      border: 1px solid #b3f0ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.8rem;
+        border-radius: 16px;
+      }
+      .login-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Agri Glow</h1>
+      <p>Login to your account</p>
+    </div>
+    <div id="alert" class="alert"></div>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input type="password" id="password" name="password" required placeholder="Enter your password">
+          <span class="toggle-password">👁️</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select your role</option>
+          <option value="farmer">Farmer</option>
+          <option value="buyer">Buyer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <p style="color: #666; font-size: 0.9rem;">
+        <a href="/password-reset.html" style="color: #009688; text-decoration: none; font-weight: 500;">Forgot Password?</a>
+      </p>
+      <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+        Don't have an account? 
+        <a href="/register.html" style="color: #00c853; text-decoration: none; font-weight: 600;">Sign up here</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const alertDiv = document.getElementById("alert");
+
+    function showAlert(message, type = "error") {
+      alertDiv.textContent = message;
+      alertDiv.className = `alert ${type}`;
+      alertDiv.style.display = "block";
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value.trim();
+
+      if (!email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+        showAlert("Please enter a valid email address");
+        return;
+      }
+      if (!password) {
+        showAlert("Password is required");
+        return;
+      }
+      if (!role) {
+        showAlert("Please select your role");
+        return;
+      }
+
+      try {
+        showAlert("Logging in...", "info");
+
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, role })
+        });
+
+        const data = await response.json();
+        console.log("Full server response:", data);
+
+        const isSuccess = 
+          data.status === "success" || 
+          data.success === true || 
+          (data.message && data.message.toLowerCase().includes("success"));
+
+        if (isSuccess) {
+          const token = data.token || data.accessToken || "";
+          const userRole = (data.role || role).toLowerCase();
+
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", data.role || role);
+          localStorage.setItem("userId", data.data?.id || data.id || "");
+
+          showAlert("Login successful! Redirecting...", "success");
+
+          let dashboardPath;
+          switch(userRole) {
+            case 'farmer':
+              dashboardPath = '/farmer-dashboard.html';
+              break;
+            case 'buyer':
+              dashboardPath = '/buyer-dashboard.html';
+              break;
+            case 'admin':
+              dashboardPath = '/admin-dashboard.html';
+              break;
+            default:
+              dashboardPath = '/';
+          }
+
+          const serverRedirect = data.redirect || data.data?.redirect;
+          const redirectTarget = serverRedirect || dashboardPath;
+
+          const finalRedirect = redirectTarget.startsWith('http')
+            ? redirectTarget
+            : `${window.location.origin}${redirectTarget}`;
+
+          console.log('User role:', userRole);
+          console.log('Server response:', data);
+          console.log('Redirecting to:', finalRedirect);
+
+          setTimeout(() => {
+            window.location.replace(finalRedirect);
+          }, 100);
+        } else {
+          showAlert(data.message || data.error || "Login failed. Please check credentials.");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        showAlert("An error occurred during login. Please try again later.");
+      }
+    });
+
+    const togglePassword = document.querySelector('.toggle-password');
+    const passwordInput = document.getElementById('password');
+    if (togglePassword && passwordInput) {
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('show');
+      });
+    }
+  </script>
+</body>
+</html>

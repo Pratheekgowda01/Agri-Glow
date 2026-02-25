@@ -1,0 +1,284 @@
+/* Sell Panel Styles */
+.sell-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+.sell-panel.active {
+  right: 0;
+}
+
+.sell-panel-content {
+  height: 100%;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.panel-header h2 {
+  color: #2C3E50;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.close-panel {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #95A5A6;
+  cursor: pointer;
+}
+
+/* Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.category-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  border-color: #00CC99;
+  background: #F0FFF9;
+}
+
+.category-btn.selected {
+  border-color: #00CC99;
+  background: #F0FFF9;
+}
+
+.category-btn .emoji {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Form Steps */
+.form-step {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2C3E50;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #00CC99;
+}
+
+/* Quantity Input */
+.quantity-input {
+  display: flex;
+  gap: 1rem;
+}
+
+.quantity-input input {
+  flex: 2;
+}
+
+.quantity-input select {
+  flex: 1;
+}
+
+/* Image Upload */
+.image-upload {
+  margin: 1.5rem 0;
+}
+
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #E0E0E0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.upload-area:hover {
+  border-color: #00CC99;
+}
+
+#upload-placeholder {
+  text-align: center;
+}
+
+#upload-placeholder .emoji {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+#image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+/* Availability Toggle */
+.availability-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #E0E0E0;
+  border-radius: 34px;
+  transition: .4s;
+}
+
+.toggle-label:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked + .toggle-label {
+  background-color: #00CC99;
+}
+
+input:checked + .toggle-label:before {
+  transform: translateX(26px);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.back-btn,
+.submit-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn {
+  background: #E0E0E0;
+  color: #2C3E50;
+}
+
+.submit-btn {
+  background: #00CC99;
+  color: white;
+}
+
+.back-btn:hover {
+  background: #D0D0D0;
+}
+
+.submit-btn:hover {
+  background: #00BB88;
+}
+
+/* Step Dots */
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #E0E0E0;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background: #00CC99;
+}

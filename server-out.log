@@ -1,0 +1,25 @@
+Twilio SMS service is disabled. Set ENABLE_TWILIO=true to enable.
+info: MongoDB connected: localhost {"service":"agri-glow","timestamp":"2025-10-17T09:38:37.278Z"}
+info: 
+╔══════════════════════════════════════════════╗
+║              🌱 AGRI GLOW 🌱                  ║
+║        Digital Marketplace Platform          ║
+╠══════════════════════════════════════════════╣
+║  Server running on: http://localhost:3000 ║
+║  Environment: development ║
+║  Database: Connected                         ║
+║  Socket.IO: Initialized                      ║
+╚══════════════════════════════════════════════╝
+       {"service":"agri-glow","timestamp":"2025-10-17T09:38:37.302Z"}
+SMTP server is ready to send emails
+info: GET /favicon.ico {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:39:16.701Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:39:23.657Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:39:23.925Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:44:54.283Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:44:54.471Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:45:40.895Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:45:41.396Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /api/farmer/profile/68f20ff4bcc25d10df71edaf {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:45:58.977Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:48:33.523Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /uploads/users/default-avatar.png {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:48:33.840Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}
+info: GET /api/farmer/profile/68f20ff4bcc25d10df71edaf {"ip":"::ffff:127.0.0.1","service":"agri-glow","timestamp":"2025-10-17T09:49:34.620Z","userAgent":"\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36\""}

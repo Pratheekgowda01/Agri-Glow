@@ -1,0 +1,95 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Poppins, Arial, sans-serif" />
+      <mj-text color="#EAEAEA" line-height="1.6" />
+    </mj-attributes>
+
+    <mj-style>
+      .glow-text {
+        text-shadow: 0 0 5px #00ff99, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+      }
+      .card {
+        background: linear-gradient(145deg, #0a0f1a, #111827);
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(0, 255, 180, 0.3);
+        padding: 25px;
+      }
+      .footer {
+        font-size: 12px;
+        color: #6b7280;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#0b1120">
+    <!-- Logo -->
+    <mj-section padding="40px 0 20px">
+      <mj-column>
+        <mj-image 
+          src="https://raw.githubusercontent.com/Pratheekgowda01/Agri-Glow/main/agriglowlogo.jpg" 
+          alt="Agri Glow Logo" 
+          width="160px"
+          border-radius="15px"
+        />
+      </mj-column>
+    </mj-section>
+
+    <!-- Card -->
+    <mj-section>
+      <mj-column css-class="card">
+        <mj-text align="center" font-size="22px" font-weight="bold" css-class="glow-text">
+          ⚡ {{companyName}} — Login Alert ⚡
+        </mj-text>
+
+        <mj-divider border-color="#00ffcc" border-width="1px" width="60%" />
+
+        <mj-text font-size="16px" align="center" color="#cbd5e1">
+          Hello <strong>{{name}}</strong>,
+        </mj-text>
+
+        <mj-text font-size="15px" color="#a5f3fc" align="center">
+          We detected a new login to your account.<br/>
+          Please review the details below:
+        </mj-text>
+
+        <mj-spacer height="10px" />
+
+        <!-- 🔍 Login Details Section -->
+        <mj-text font-size="16px" color="#EAEAEA" line-height="24px" align="center">
+          <strong>Date/Time:</strong> {{loginTime}}<br />
+          <strong>Role:</strong> {{role}}<br />
+          <strong>IP Address:</strong> {{ip}}
+        </mj-text>
+
+        <mj-spacer height="10px" />
+
+        <mj-text font-size="15px" color="#a5f3fc" align="center">
+          If this wasn’t you, please contact our support team immediately.
+        </mj-text>
+
+        <mj-spacer height="20px" />
+
+        <mj-button
+          background-color="#00ffcc"
+          color="#0b1120"
+          font-weight="bold"
+          border-radius="30px"
+          padding="10px 25px"
+          href="{{{securityLink}}}"
+        >
+          Review Activity
+        </mj-button>
+
+        <mj-spacer height="15px" />
+
+        <mj-divider border-color="#1e293b" />
+
+        <mj-text align="center" css-class="footer">
+          If you have any questions, reply to this email or contact support.<br/><br/>
+          © {{year}} <strong>{{companyName}}</strong>. All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

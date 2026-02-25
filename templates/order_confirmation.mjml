@@ -1,0 +1,167 @@
+<mjml>
+  <mj-head>
+    <mj-title>Order Confirmation - {{orderId}}</mj-title>
+    <mj-font name="Roboto" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <mj-attributes>
+      <mj-all font-family="Roboto, Helvetica, Arial, sans-serif" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      .green-button {
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      }
+      .order-box {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+      .green-text {
+        color: #4CAF50;
+      }
+      .price-text {
+        color: #2e7d32;
+        font-weight: 600;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#f8f9fa">
+    <mj-section background-color="#ffffff" padding="0">
+      <mj-column>
+  <mj-image src="https://raw.githubusercontent.com/Pratheekgowda01/Agri-Glow/main/agriglowlogo.jpg" alt="Agri Glow Logo" width="150px" />
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#ffffff" padding="0 25px">
+      <mj-column>
+        <mj-text font-size="28px" color="#333333" font-weight="500" line-height="1.3" padding="0 0 20px">
+          Order Confirmed! 🎉
+        </mj-text>
+        
+        <mj-text font-size="16px" color="#666666" line-height="1.6" padding="0 0 25px">
+          Hi {{buyerName}},<br><br>
+          Thank you for your order! Your payment has been confirmed and your fresh produce is being prepared by the farmer.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <!-- Order Details Box -->
+    <mj-section background-color="#ffffff" padding="0 25px">
+      <mj-column css-class="order-box" padding="20px">
+        <mj-text font-size="18px" color="#333333" font-weight="500" padding="0 0 15px" align="center">
+          Order #{{orderId}}
+        </mj-text>
+        
+        <mj-table>
+          <tr>
+            <td style="padding: 8px 0; color: #666666; font-size: 14px;">Product:</td>
+            <td style="padding: 8px 0; color: #333333; font-size: 14px; font-weight: 500;">{{productName}}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #666666; font-size: 14px;">Farmer:</td>
+            <td style="padding: 8px 0; color: #333333; font-size: 14px; font-weight: 500;">{{farmerName}}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #666666; font-size: 14px;">Quantity:</td>
+            <td style="padding: 8px 0; color: #333333; font-size: 14px; font-weight: 500;">{{quantity}} {{unit}}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #666666; font-size: 14px;">Unit Price:</td>
+            <td style="padding: 8px 0; color: #2e7d32; font-size: 14px; font-weight: 500;">₹{{unitPrice}}/{{unit}}</td>
+          </tr>
+          <tr style="border-top: 1px solid #e0e0e0;">
+            <td style="padding: 12px 0 8px; color: #333333; font-size: 16px; font-weight: 600;">Total Amount:</td>
+            <td style="padding: 12px 0 8px; color: #2e7d32; font-size: 18px; font-weight: 700;">₹{{totalAmount}}</td>
+          </tr>
+        </mj-table>
+        
+        <mj-text font-size="14px" color="#666666" padding="15px 0 0" align="center">
+          Payment Method: {{paymentMethod}}<br>
+          Order Date: {{orderDate}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <!-- Delivery Information -->
+    <mj-section background-color="#ffffff" padding="0 25px">
+      <mj-column>
+        <mj-text font-size="18px" color="#333333" font-weight="500" padding="25px 0 15px">
+          Delivery Information
+        </mj-text>
+        
+        <mj-text font-size="14px" color="#666666" line-height="1.6" padding="0 0 15px">
+          <strong>Delivery Address:</strong><br>
+          {{deliveryAddress}}
+        </mj-text>
+        
+        <mj-text font-size="14px" color="#666666" line-height="1.6" padding="0 0 25px">
+          <strong>Expected Delivery:</strong> {{expectedDelivery}}<br>
+          <strong>Time Slot:</strong> {{timeSlot}}
+        </mj-text>
+        
+        <mj-button css-class="green-button" color="#ffffff" font-size="16px" font-weight="500" href="{{trackingUrl}}" padding="0 0 25px">
+          Track Your Order
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    
+    <!-- Farmer Information -->
+    <mj-section background-color="#ffffff" padding="0 25px">
+      <mj-column>
+        <mj-text font-size="18px" color="#333333" font-weight="500" padding="0 0 15px">
+          About Your Farmer
+        </mj-text>
+        
+        <mj-text font-size="14px" color="#666666" line-height="1.6" padding="0 0 15px">
+          <strong>{{farmerName}}</strong><br>
+          {{farmerLocation}}
+          {{#if farmerRating}}
+          <br>⭐ {{farmerRating}}/5 rating ({{farmerReviews}} reviews)
+          {{/if}}
+        </mj-text>
+        
+        {{#if farmerPhone}}
+        <mj-text font-size="14px" color="#4CAF50" padding="0 0 25px">
+          📞 You can contact your farmer at: {{farmerPhone}}
+        </mj-text>
+        {{/if}}
+      </mj-column>
+    </mj-section>
+    
+    <!-- What's Next -->
+    <mj-section background-color="#f8f9fa" padding="25px">
+      <mj-column>
+        <mj-text font-size="16px" color="#333333" font-weight="500" padding="0 0 15px">
+          What happens next?
+        </mj-text>
+        
+        <mj-text font-size="14px" color="#666666" line-height="1.6" padding="0 0 15px">
+          1. The farmer will prepare your fresh produce<br>
+          2. You'll get real-time updates on your order status<br>
+          3. Your order will be delivered at the scheduled time<br>
+          4. Rate your experience after delivery
+        </mj-text>
+        
+        <mj-text font-size="14px" color="#666666" line-height="1.6" padding="0 0 15px">
+          🚚 <strong>Live Tracking:</strong> Track your order in real-time through the app<br>
+          📱 <strong>Updates:</strong> Get SMS and email notifications at each step<br>
+          💬 <strong>Support:</strong> Contact us anytime if you need help
+        </mj:text>
+      </mj-column>
+    </mj-section>
+    
+    <!-- Footer -->
+    <mj-section background-color="#f8f9fa" padding="25px">
+      <mj-column>
+        <mj-text align="center" font-size="12px" color="#999999" line-height="1.5">
+          © {{year}} Agri Glow. All rights reserved.<br>
+          Connecting farmers and buyers directly for a better tomorrow.
+        </mj-text>
+        
+        <mj-text align="center" font-size="12px" color="#999999" padding="10px 0 0">
+          <a href="{{baseUrl}}/orders/{{orderId}}" style="color: #4CAF50; text-decoration: none;">View Order</a> | 
+          <a href="{{baseUrl}}/support" style="color: #999999; text-decoration: none;">Support</a> | 
+          <a href="{{baseUrl}}/track/{{orderId}}" style="color: #4CAF50; text-decoration: none;">Track Order</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

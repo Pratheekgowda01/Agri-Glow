@@ -1,0 +1,118 @@
+<mjml>
+  <mj-head>
+    <mj-title>Welcome to Agri Glow</mj-title>
+    <mj-font name="Poppins" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Poppins, Arial, sans-serif" />
+      <mj-text color="#EAEAEA" line-height="1.6" />
+    </mj-attributes>
+
+    <mj-style>
+      .hero {
+        background: radial-gradient(circle at top left, #00ffc3, #007a58);
+        padding: 40px 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(0, 255, 180, 0.25);
+      }
+      .glow-title {
+        color: #ffffff;
+        text-shadow: 0 0 10px #00ffcc, 0 0 20px #00cc99;
+        letter-spacing: 0.5px;
+      }
+      .cta-button {
+        background: linear-gradient(135deg, #00ffcc, #00b386);
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .content-box {
+        background-color: #0b1120;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 0 30px rgba(0, 255, 180, 0.1);
+      }
+      .footer {
+        font-size: 12px;
+        color: #a1a1aa;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#030712">
+    <!-- Header -->
+    <mj-section padding="30px 0 10px">
+      <mj-column>
+        <mj-image
+          src="https://raw.githubusercontent.com/Pratheekgowda01/Agri-Glow/main/agriglowlogo.jpg"
+          alt="Agri Glow Logo"
+          width="160px"
+          border-radius="15px"
+        />
+      </mj-column>
+    </mj-section>
+
+    <!-- Hero -->
+    <mj-section css-class="">
+      <mj-column>
+        <mj-text align="center" font-size="26px" font-weight="600" css-class="glow-title">
+          🌿 Welcome to <span style="color:#00ffcc;">Agri Glow</span> 🌿
+        </mj-text>
+        
+      </mj-column>
+    </mj-section>
+
+    <!-- Main Content -->
+    <mj-section padding="40px 25px">
+      <mj-column css-class="content-box">
+        <mj-text font-size="16px" color="#d1fae5" line-height="24px">
+          Dear <strong>{{name}}</strong>,
+        </mj-text>
+
+        <mj-text font-size="16px" color="#d1fae5" line-height="24px">
+          Welcome aboard! We're thrilled to have you as a <strong>{{role}}</strong> on Agri Glow — your gateway to a smarter agricultural ecosystem.
+        </mj-text>
+
+        <mj-text font-size="16px" color="#cbd5e1" line-height="24px">
+          With your new account, you can now:
+        </mj-text>
+
+        <mj-text font-size="15px" color="#a5f3fc" line-height="24px" padding-left="30px">
+          {{#if (eq role "farmer")}}
+          • Showcase and manage your produce 🌾<br/>
+          • Connect directly with verified buyers 🤝<br/>
+          • Optimize pricing and track earnings 💰<br/>
+          • Access insights and growth analytics 📊
+          {{else}}
+          • Discover quality produce from trusted farmers 🥬<br/>
+          • Place and track your orders in real time 📦<br/>
+          • Communicate seamlessly with suppliers 💬<br/>
+          • Enjoy transparent and secure transactions 🔒
+          {{/if}}
+        </mj-text>
+
+        <mj-spacer height="20px" />
+        <mj-button css-class="cta-button" color="#0b1120" href="https://agriglow.com/login">
+          Login to Dashboard
+        </mj-button>
+
+        <mj-spacer height="15px" />
+
+        <mj-text font-size="14px" color="#9ca3af" align="center" line-height="22px">
+          Need help? Our support team is always here for you:<br/>
+          <a href="mailto:support@agriglow.com" style="color:#00ffcc; text-decoration:none;">support@agriglow.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="20px">
+      <mj-column>
+        <mj-divider border-color="#1e293b" />
+        <mj-text align="center" css-class="footer">
+          © {{year}} <strong>Agri Glow</strong> — Empowering Smart Agriculture with AI & Innovation.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

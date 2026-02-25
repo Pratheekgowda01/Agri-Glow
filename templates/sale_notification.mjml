@@ -1,0 +1,172 @@
+<mjml>
+  <mj-head>
+    <mj-title>🌾 Agri Glow | New Sale Notification</mj-title>
+    <mj-font name="Poppins" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" />
+
+    <mj-attributes>
+      <mj-all font-family="Poppins, Arial, sans-serif" />
+      <mj-text color="#EAEAEA" line-height="1.6" />
+    </mj-attributes>
+
+    <mj-style>
+      .glow-header {
+        background: radial-gradient(circle at top left, #00ffcc, #007a58);
+        padding: 40px 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(0, 255, 200, 0.25);
+      }
+      .glow-title {
+        color: #ffffff;
+        font-size: 30px;
+        font-weight: 700;
+        text-shadow: 0 0 8px #00ffcc, 0 0 15px #00cc99;
+        letter-spacing: 0.8px;
+      }
+      .card {
+        background: rgba(20, 30, 40, 0.95);
+        border: 1px solid rgba(0, 255, 200, 0.08);
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.12);
+      }
+      .cta-button {
+        background: linear-gradient(135deg, #00ffcc, #009970);
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+      }
+      .footer {
+        font-size: 12px;
+        color: #a1a1aa;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#0b1120">
+
+    <!-- Header with Glow Logo -->
+    <mj-section css-class="glow-header">
+      <mj-column>
+        <mj-image
+          src="https://raw.githubusercontent.com/Pratheekgowda01/Agri-Glow/main/agriglowlogo.jpg"
+          alt="Agri Glow Logo"
+          width="120px"
+          border-radius="12px"
+        />
+        <mj-text align="center" css-class="glow-title">🌿 New Sale Notification 🌿</mj-text>
+        <mj-text align="center" color="#d1fae5" font-size="16px">
+          Congratulations, {{name}}! You’ve got a new order.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Order Overview -->
+    <mj-section padding="30px 20px">
+      <mj-column css-class="card">
+        <mj-text font-size="18px" font-weight="600" color="#00ffcc">
+          🧾 Order Details
+        </mj-text>
+        <mj-divider border-color="#1e293b" />
+
+        <mj-text color="#d1fae5" font-size="14px" line-height="22px">
+          <strong>Order ID:</strong> {{orderId}}<br/>
+          <strong>Product:</strong> {{productName}}<br/>
+          <strong>Quantity:</strong> {{quantity}} {{unit}}<br/>
+          <strong>Unit Price:</strong> ₹{{unitPrice}}<br/>
+          <strong>Total:</strong> <span style="color:#00ffcc;font-weight:600;">₹{{totalAmount}}</span>
+        </mj-text>
+
+        <mj-spacer height="20px" />
+        <mj-text font-size="16px" font-weight="600" color="#00ffcc">
+          👤 Buyer Info
+        </mj-text>
+        <mj-divider border-color="#1e293b" />
+
+        <mj-text color="#d1fae5" font-size="14px" line-height="22px">
+          <strong>Name:</strong> {{buyerName}}<br/>
+          <strong>Phone:</strong> {{buyerPhone}}<br/>
+          <strong>Email:</strong> {{buyerEmail}}<br/>
+          <strong>Payment:</strong> <span style="color:#00ffcc;">{{paymentMethod}}</span>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Delivery Card -->
+    <mj-section padding="0 20px 30px">
+      <mj-column css-class="card">
+        <mj-text font-size="18px" font-weight="600" color="#00ffcc">
+          🚚 Delivery Details
+        </mj-text>
+        <mj-divider border-color="#1e293b" />
+
+        <mj-text color="#d1fae5" font-size="14px" line-height="22px">
+          <strong>Address:</strong><br/> {{deliveryAddress}}<br/><br/>
+          <strong>Expected Delivery:</strong> {{expectedDelivery}}<br/>
+          <strong>Time Slot:</strong> {{timeSlot}}<br/>
+          {{#if deliveryInstructions}}
+          <strong>Special Instructions:</strong> {{deliveryInstructions}}
+          {{/if}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA -->
+    <mj-section padding="20px">
+      <mj-column>
+        <mj-button href="{{dashboardUrl}}" css-class="cta-button" color="#0b1120">
+          View Order in Dashboard
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- Summary -->
+    <mj-section padding="10px 20px 30px">
+      <mj-column css-class="card">
+        <mj-text align="center" font-size="18px" font-weight="600" color="#00ffcc">
+          💰 Earnings Snapshot
+        </mj-text>
+        <mj-table>
+          <tr>
+            <td style="padding:10px;text-align:center;border-right:1px solid #1e293b;">
+              <div style="color:#00ffcc;font-size:20px;font-weight:700;">₹{{totalAmount}}</div>
+              <div style="color:#9ca3af;font-size:12px;">This Order</div>
+            </td>
+            <td style="padding:10px;text-align:center;border-right:1px solid #1e293b;">
+              <div style="color:#00ffcc;font-size:20px;font-weight:700;">{{totalSalesCount}}</div>
+              <div style="color:#9ca3af;font-size:12px;">Total Sales</div>
+            </td>
+            <td style="padding:10px;text-align:center;">
+              <div style="color:#00ffcc;font-size:20px;font-weight:700;">₹{{monthlyEarnings}}</div>
+              <div style="color:#9ca3af;font-size:12px;">Monthly Earnings</div>
+            </td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+
+    <!-- Tip -->
+    <mj-section padding="20px">
+      <mj-column css-class="card" background-color="#112235">
+        <mj-text font-size="14px" font-weight="600" color="#00ffcc">
+          💡 Pro Tip
+        </mj-text>
+        <mj-text font-size="13px" color="#a7f3d0">
+          Keep your {{productName}} ready for dispatch and respond quickly to the buyer — it boosts your seller rating and builds trust! 🌱
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="20px">
+      <mj-column>
+        <mj-divider border-color="#1e293b" />
+        <mj-text align="center" css-class="footer">
+          © {{year}} <strong>Agri Glow</strong> | Empowering Smart Agriculture 🌿<br/>
+          <a href="mailto:support@agriglow.com" style="color:#00ffcc;text-decoration:none;">support@agriglow.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -1,0 +1,5 @@
+{"error":"Twilio client not configured","level":"error","message":"Failed to send SMS to +919686090062:","phone":"+919686090062","timestamp":"2025-10-16T16:52:40.396Z"}
+{"error":"Twilio client not configured","level":"error","message":"Failed to send SMS to +91900456732:","phone":"+91900456732","timestamp":"2025-10-16T17:01:45.339Z"}
+{"error":"Twilio client not configured","level":"error","message":"Failed to send SMS to +919876543212:","phone":"+919876543212","timestamp":"2025-10-16T17:18:12.178Z"}
+{"error":"Twilio client not configured","level":"error","message":"Failed to send SMS to +91900456731:","phone":"+91900456731","timestamp":"2025-10-16T18:33:01.121Z"}
+{"error":"Twilio client not configured","level":"error","message":"Failed to send SMS to +917483595759:","phone":"+917483595759","timestamp":"2025-10-17T03:24:28.759Z"}

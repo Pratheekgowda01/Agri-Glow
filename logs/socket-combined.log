@@ -1,0 +1,174 @@
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T16:50:24.301Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T16:56:31.233Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T16:59:10.151Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:00:59.910Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:03:15.927Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:18:08.409Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:26:32.723Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:26:44.615Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:27:41.774Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:30:14.609Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:32:02.087Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T17:33:18.923Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-16T18:31:36.878Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T03:23:26.145Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T03:45:34.256Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:34:41.313Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:38:26.837Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:44:00.760Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:48:04.789Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:52:55.290Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:55:18.949Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T04:58:44.556Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:03:19.653Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:07:57.961Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:12:45.242Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"h6vZPmk9jf0mYOX8AAAB","timestamp":"2025-10-17T05:12:55.586Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"h6vZPmk9jf0mYOX8AAAB","timestamp":"2025-10-17T05:12:55.652Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"4UU8Yj90JqQp6AGOAAAD","timestamp":"2025-10-17T05:13:05.322Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"4UU8Yj90JqQp6AGOAAAD","timestamp":"2025-10-17T05:13:05.346Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:15:37.046Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"4cwX_0Z3gw2s95o8AAAB","timestamp":"2025-10-17T05:15:50.329Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"4cwX_0Z3gw2s95o8AAAB","timestamp":"2025-10-17T05:15:50.384Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:20:22.597Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"p6BKFXcfrC3Lr-cQAAAB","timestamp":"2025-10-17T05:20:34.067Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"p6BKFXcfrC3Lr-cQAAAB","timestamp":"2025-10-17T05:20:34.098Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"i48fTsbklSStD5s0AAAD","timestamp":"2025-10-17T05:20:49.929Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"i48fTsbklSStD5s0AAAD","timestamp":"2025-10-17T05:20:49.968Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:22:01.111Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"kbihHSNKxy3uJdZlAAAB","timestamp":"2025-10-17T05:22:26.508Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"kbihHSNKxy3uJdZlAAAB","timestamp":"2025-10-17T05:22:26.575Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:27:02.160Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"yI_eT16fcsh0dUemAAAB","timestamp":"2025-10-17T05:27:12.824Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"yI_eT16fcsh0dUemAAAB","timestamp":"2025-10-17T05:27:12.872Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:33:29.769Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"pxefMrJpYtNwOI_aAAAB","timestamp":"2025-10-17T05:33:39.344Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"pxefMrJpYtNwOI_aAAAB","timestamp":"2025-10-17T05:33:39.385Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:40:53.901Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"yjzMzEjjmEdMdzHOAAAB","timestamp":"2025-10-17T05:41:05.445Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"yjzMzEjjmEdMdzHOAAAB","timestamp":"2025-10-17T05:41:05.469Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) connected","role":"buyer","socketId":"abJTDr8k50gJoKgUAAAD","timestamp":"2025-10-17T05:41:11.633Z"}
+{"level":"info","message":"User Sweejith B V (68f1cc484dcfeb32a4b8bba5) disconnected","socketId":"abJTDr8k50gJoKgUAAAD","timestamp":"2025-10-17T05:41:22.076Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:41:24.548Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:47:13.076Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T05:49:51.669Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T06:02:34.787Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T06:19:32.349Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T06:47:48.893Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T07:26:29.850Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:08:01.263Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:18:20.873Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:26:39.895Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:39:07.215Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:39:13.292Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:39:56.779Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:45:46.786Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:46:29.015Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:48:01.457Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:51:04.329Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:56:30.454Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:57:37.405Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:58:08.042Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T08:59:24.105Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:00:18.207Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:24:59.929Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:28:27.102Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:36:57.628Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:38:37.230Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:50:51.546Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:51:54.406Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:54:59.362Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:57:04.840Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T09:59:30.583Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:01:39.368Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:05:08.032Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:23:32.815Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:25:54.509Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:26:23.902Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:26:56.475Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:27:21.152Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:39:03.522Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:42:01.168Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T10:58:19.940Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:01:55.923Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:03:26.934Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:16:57.721Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:21:12.762Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:23:58.754Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:25:09.032Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T11:27:38.917Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:25:50.978Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:29:49.491Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:34:51.707Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:36:24.451Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:45:27.094Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:48:34.371Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:54:05.740Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T14:56:47.223Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T15:01:12.526Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T15:21:06.527Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T15:30:07.099Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T15:54:33.193Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T15:59:29.803Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:17:49.675Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:26:52.524Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:35:14.540Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:38:17.785Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:38:52.057Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:39:29.444Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:51:46.717Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T16:59:17.532Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T17:03:55.885Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T17:04:12.855Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T17:08:53.440Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T17:10:46.407Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-17T17:26:19.587Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T03:28:45.123Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T03:31:05.138Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T03:50:15.515Z"}
+{"data":{"category":"vegetables","productId":"68f30f091c319929ffc9c914","type":"new_product"},"level":"info","message":"Event new-product broadcasted to all users","timestamp":"2025-10-18T03:52:41.134Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T04:56:01.209Z"}
+{"data":{"category":"vegetables","productId":"68f320c31c319929ffc9c92a","type":"new_product"},"level":"info","message":"Event new-product broadcasted to all users","timestamp":"2025-10-18T05:08:19.024Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T05:22:10.219Z"}
+{"data":{"category":"vegetables","productId":"68f3246b7bcecf1358211460","type":"new_product"},"level":"info","message":"Event new-product broadcasted to all users","timestamp":"2025-10-18T05:23:55.114Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T05:34:47.161Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T06:23:08.410Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T06:24:43.175Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T06:27:11.261Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T06:39:32.546Z"}
+{"data":{"category":"vegetables","productId":"68f33a2b5c08399fdbd44371","type":"new_product"},"level":"info","message":"Event new-product broadcasted to all users","timestamp":"2025-10-18T06:56:43.554Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T15:30:00.570Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-18T15:32:42.513Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T05:57:27.984Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T05:59:22.651Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T06:00:39.748Z"}
+{"data":{"category":"vegetables","productId":"68f87654c6ddcaec5d732af2","type":"new_product"},"level":"info","message":"Event new-product broadcasted to all users","timestamp":"2025-10-22T06:14:44.535Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T06:36:31.039Z"}
+{"data":{"productId":"68f87654c6ddcaec5d732af2","type":"product_deleted"},"level":"info","message":"Event product-deleted broadcasted to all users","timestamp":"2025-10-22T06:37:14.767Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T07:27:12.588Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T08:26:15.929Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T09:23:34.021Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T09:32:29.348Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-22T09:56:52.623Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-23T01:08:53.493Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-23T01:40:27.108Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-24T14:51:50.907Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-10-24T15:03:48.223Z"}
+{"level":"warn","message":"User 68f875eac6ddcaec5d732ae1 not connected, cannot send event product_created","timestamp":"2025-10-24T15:05:58.973Z"}
+{"data":{"productId":"68fb95d6cb7da6b4547e4add","type":"product_updated","updates":["name","category","unit","price","quantity","minOrderQuantity","description","harvestDate","expiryDate","isOrganic","images"]},"level":"info","message":"Event product-updated broadcasted to all users","timestamp":"2025-10-24T15:06:16.606Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:03:56.067Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:16:34.616Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:22:38.987Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:23:12.729Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:29:35.042Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:36:13.786Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:40:32.431Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T12:45:37.375Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T13:01:27.801Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-02T13:54:19.028Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-03T16:40:07.007Z"}
+{"data":{"productId":"68fb95d6cb7da6b4547e4add","type":"product_updated","updates":["name","category","unit","price","quantity","minOrderQuantity","description","harvestDate","expiryDate","isOrganic"]},"level":"info","message":"Event product-updated broadcasted to all users","timestamp":"2025-11-03T16:45:12.350Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-06T15:34:46.242Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2025-11-25T15:00:35.766Z"}
+{"level":"info","message":"Socket.IO server initialized","timestamp":"2026-02-25T04:56:45.436Z"}
+{"data":{"productId":"68fb95d6cb7da6b4547e4add","type":"product_updated","updates":["name","category","unit","price","quantity","minOrderQuantity","description","harvestDate","expiryDate","isOrganic"]},"level":"info","message":"Event product-updated broadcasted to all users","timestamp":"2026-02-25T05:01:13.132Z"}

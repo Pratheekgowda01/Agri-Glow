@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Verify Account - Agri Glow</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f6f8fa; display:flex; align-items:center; justify-content:center; height:100vh; }
+    .card { background:white; padding:2rem; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.08); max-width:520px; width:100%; text-align:center; }
+    .btn { display:inline-block; padding:12px 24px; background:#4caf50; color:#fff; border-radius:999px; text-decoration:none; }
+    .muted { color:#666; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Verify your account</h2>
+    <p class="muted">Click the button below to complete verification. If the link contains a token it will be used automatically.</p>
+    <div id="status" style="margin:1rem 0;color:#333"></div>
+    <button id="verifyBtn" class="btn">Verify Now</button>
+  </div>
+
+  <script>
+    function getQuery() {
+      return new URLSearchParams(window.location.search);
+    }
+
+    async function verify() {
+      const params = getQuery();
+      const token = params.get('token');
+      const id = params.get('id') || params.get('user') || params.get('uid');
+
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = 'Verifying...';
+
+      try {
+        const body = {};
+        if (token) body.otp = token; // server expects otp param for verification in this project
+        if (id) body.userId = id;
+
+        const res = await fetch('/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          statusEl.textContent = 'Your account has been verified — redirecting to login...';
+          setTimeout(() => window.location.href = '/login', 2000);
+        } else {
+          statusEl.textContent = data.message || 'Verification failed';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Network error - please try again later';
+      }
+    }
+
+    document.getElementById('verifyBtn').addEventListener('click', verify);
+
+    // Auto-run verify when token present
+    const params = getQuery();
+    if (params.get('token') || params.get('id')) {
+      verify();
+    }
+  </script>
+</body>
+</html>

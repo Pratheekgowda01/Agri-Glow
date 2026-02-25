@@ -1,0 +1,117 @@
+<!-- Sell Panel Component -->
+<div id="sell-panel" class="sell-panel hidden">
+  <div class="sell-panel-content">
+    <div class="panel-header">
+      <h2>What would you like to sell today?</h2>
+      <button class="close-panel" onclick="closeSellPanel()">&times;</button>
+    </div>
+
+    <form id="sell-form" class="sell-form" method="POST" enctype="multipart/form-data">
+      <!-- Step 1: Category -->
+      <div class="form-step" data-step="1">
+        <h3>Select your product category</h3>
+        <div class="category-grid">
+          <button type="button" class="category-btn" data-category="vegetables">
+            <span class="emoji">🥦</span>
+            <span>Vegetables</span>
+          </button>
+          <button type="button" class="category-btn" data-category="fruits">
+            <span class="emoji">🍎</span>
+            <span>Fruits</span>
+          </button>
+          <button type="button" class="category-btn" data-category="grains">
+            <span class="emoji">🌾</span>
+            <span>Grains</span>
+          </button>
+          <button type="button" class="category-btn" data-category="dairy">
+            <span class="emoji">🥛</span>
+            <span>Dairy</span>
+          </button>
+          <button type="button" class="category-btn" data-category="flowers">
+            <span class="emoji">🌹</span>
+            <span>Flowers</span>
+          </button>
+          <button type="button" class="category-btn" data-category="others">
+            <span class="emoji">🌽</span>
+            <span>Others</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Product Details -->
+      <div class="form-step hidden" data-step="2">
+        <h3>Enter Product Details</h3>
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" id="productName" name="productName" required 
+                 placeholder="e.g., Tomatoes, Bananas, Wheat, etc.">
+        </div>
+        
+        <div class="form-group">
+          <label for="quantity">Quantity Available</label>
+          <div class="quantity-input">
+            <input type="number" id="quantity" name="quantity" required min="0" step="0.1">
+            <select id="unit" name="unit" required>
+              <option value="kg">kg</option>
+              <option value="litres">litres</option>
+              <option value="pieces">pieces</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price per Unit (₹)</label>
+          <input type="number" id="price" name="price" required min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description (Optional)</label>
+          <textarea id="description" name="description" rows="3" 
+                    placeholder="Add any additional details about your product"></textarea>
+        </div>
+      </div>
+
+      <!-- Step 3: Image Upload -->
+      <div class="form-step hidden" data-step="3">
+        <h3>Upload Product Image</h3>
+        <div class="image-upload">
+          <label for="productImage" class="upload-area">
+            <div id="upload-placeholder">
+              <span class="emoji">📸</span>
+              <span>Click to upload or drag image here</span>
+            </div>
+            <img id="image-preview" class="hidden">
+          </label>
+          <input type="file" id="productImage" name="productImage" accept="image/*">
+        </div>
+      </div>
+
+      <!-- Step 4: Availability -->
+      <div class="form-step hidden" data-step="4">
+        <h3>Availability</h3>
+        <div class="availability-toggle">
+          <label>Selling now?</label>
+          <div class="toggle-switch">
+            <input type="checkbox" id="availability" name="availability" checked>
+            <label for="availability" class="toggle-label">
+              <span class="toggle-inner"></span>
+              <span class="toggle-switch"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="back-btn" onclick="previousStep()">Back</button>
+          <button type="submit" class="submit-btn">List Product</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="step-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+</div>

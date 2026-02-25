@@ -1,0 +1,2995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Dashboard - Agri Glow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/dist/lucide.css">
+  <link rel="stylesheet" href="/styles/sell-panel.css">
+  <script>
+    // Check authentication
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+      
+      if (!token || role !== 'farmer') {
+        window.location.href = '/login.html';
+        return;
+      }
+      
+      document.body.style.visibility = 'visible';
+    });
+  </script>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: rgba(15, 23, 42, 0.82);
+      --bg-panel: rgba(15, 23, 42, 0.68);
+      --bg-elevated: rgba(30, 41, 59, 0.72);
+      --border: rgba(148, 163, 184, 0.22);
+      --border-strong: rgba(148, 163, 184, 0.45);
+      --accent: #22d3ee;
+      --accent-strong: #06b6d4;
+      --accent-muted: rgba(34, 211, 238, 0.16);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #facc15;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0b1220 0%, #0f172a 45%, #111827 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      padding: 0;
+      position: relative;
+    }
+    .dashboard-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(79, 70, 229, 0.25), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.26), transparent 60%),
+        radial-gradient(circle at 50% 85%, rgba(34, 197, 94, 0.22), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      padding: 34px 28px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      z-index: 3;
+    }
+    .sidebar h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-main);
+    }
+    .nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nav-item {
+      margin: 0;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, color 0.2s ease, border 0.2s ease, background 0.2s ease;
+    }
+    .nav-link i {
+      font-size: 1.1rem;
+    }
+    .nav-link:hover {
+      color: var(--text-main);
+      background: rgba(34, 197, 94, 0.1);
+      border-color: var(--accent-muted);
+      transform: translateX(6px);
+    }
+    .nav-link.active {
+      color: var(--text-main);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(59, 130, 246, 0.18));
+      border-color: var(--accent);
+      box-shadow: 0 20px 45px rgba(6, 182, 212, 0.25);
+      transform: translateX(6px);
+    }
+    .main-content {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      padding: 48px clamp(32px, 6vw, 72px);
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      position: relative;
+      z-index: 2;
+    }
+    .profile-card {
+      background: var(--bg-panel);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 45px 90px rgba(8, 13, 23, 0.55);
+      padding: 36px clamp(28px, 4vw, 48px);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      backdrop-filter: blur(18px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .profile-card.loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .profile-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      object-fit: cover;
+      border: 1px solid var(--border-strong);
+      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+    }
+    .floating-sell-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 64px;
+      height: 64px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(14, 165, 233, 0.95));
+      color: #f1f5f9;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 30px 60px rgba(37, 99, 235, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 4;
+    }
+    .floating-sell-btn:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 36px 80px rgba(37, 99, 235, 0.45);
+    }
+    .notification {
+      position: fixed;
+      top: 32px;
+      right: 36px;
+      padding: 16px 26px;
+      border-radius: 18px;
+      font-weight: 600;
+      color: var(--text-main);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px rgba(8, 13, 23, 0.45);
+      z-index: 5;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    .notification.success {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(22, 101, 52, 0.45);
+    }
+    .notification.error {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(127, 29, 29, 0.5);
+    }
+    .notification.info {
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(12, 74, 110, 0.5);
+    }
+    .edit-btn {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .edit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 45px rgba(148, 163, 184, 0.2);
+    }
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      flex: 1;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .profile-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+    }
+    .detail-item i {
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .profile-section {
+      padding: 24px;
+      background: var(--bg-elevated);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .location-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .location-info i {
+      font-size: 1.4rem;
+      color: var(--accent);
+    }
+    .location-info h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.1rem;
+      color: var(--text-main);
+    }
+    .location-info p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .status-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--bg-elevated);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      width: fit-content;
+      color: var(--text-muted);
+    }
+    .status-switch {
+      width: 54px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.3);
+      position: relative;
+      transition: background 0.2s ease;
+      cursor: pointer;
+    }
+    .status-switch.active {
+      background: rgba(34, 197, 94, 0.55);
+    }
+    .status-knob {
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--text-main);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.4);
+      transition: transform 0.2s ease;
+    }
+    .status-switch.active .status-knob {
+      transform: translateX(24px);
+      background: #34d399;
+    }
+    .map {
+      width: 100%;
+      height: 240px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.12);
+      filter: grayscale(10%);
+    }
+    .profile-form {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+    .product-form {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      box-shadow: 0 32px 60px rgba(8, 13, 23, 0.5);
+      margin-bottom: 32px;
+    }
+    .product-form.show {
+      display: flex;
+    }
+    .product-form h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: var(--text-main);
+      font-weight: 700;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group.span-2 {
+      grid-column: span 2;
+    }
+    .form-group label {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: rgba(15, 23, 42, 0.4);
+      color: var(--text-main);
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+    }
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    .form-actions button {
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .profile-form input, .profile-form select {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: rgba(15, 23, 42, 0.4);
+      color: var(--text-main);
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+    .profile-form input:focus, .profile-form select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+    }
+    .save-btn {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+      color: #02111f;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 28px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 24px 55px rgba(6, 182, 212, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .save-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Inventory Styles */
+    .inventory-section {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .inventory-header {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .inventory-header h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .inventory-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .category-filter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .category-filter-btn {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.45);
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease, border 0.2s ease;
+    }
+    .category-filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(6, 182, 212, 0.22);
+      transform: translateY(-2px);
+    }
+    .category-filter-btn.active {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.85), rgba(6, 182, 212, 0.88));
+      color: #02111f;
+      border-color: transparent;
+      box-shadow: 0 26px 60px rgba(34, 197, 94, 0.28);
+      transform: translateY(-2px);
+    }
+    .inventory-summary {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+    .add-product-btn {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(6, 182, 212, 0.9));
+      color: #02111f;
+      padding: 12px 26px;
+      border: 1px solid transparent;
+      box-shadow: 0 24px 60px rgba(34, 197, 94, 0.28);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .add-product-btn:hover {
+      transform: translateY(-3px);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+    .product-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 32px 60px rgba(8, 13, 23, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 42px 80px rgba(8, 13, 23, 0.6);
+    }
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      filter: saturate(1.05);
+    }
+    .product-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-main);
+    }
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      gap: 12px;
+    }
+    .product-status {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: rgba(148, 163, 184, 0.16);
+      color: var(--text-muted);
+    }
+    .product-status.active {
+      background: rgba(34, 197, 94, 0.18);
+      color: #4ade80;
+    }
+    .product-status.inactive {
+      background: rgba(248, 113, 113, 0.2);
+      color: #fca5a5;
+    }
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .product-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .product-stock {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .product-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .product-action-btn {
+      flex: 1;
+      padding: 12px 0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .product-action-btn:hover {
+      transform: translateY(-2px);
+    }
+    .edit-product {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+    .edit-product:hover {
+      box-shadow: 0 18px 45px rgba(59, 130, 246, 0.35);
+    }
+    .delete-product {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    .delete-product:hover {
+      box-shadow: 0 18px 45px rgba(239, 68, 68, 0.35);
+    }
+    .product-form {
+      display: none;
+      background: var(--bg-elevated);
+      padding: 32px;
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 32px 70px rgba(8, 13, 23, 0.5);
+    }
+    .product-form.show {
+      display: block;
+    }
+    .product-form h3 {
+      margin: 0 0 24px;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .product-form .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .product-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .product-form .form-group.span-2 {
+      grid-column: span 2;
+    }
+    @media (max-width: 640px) {
+      .product-form .form-group.span-2 {
+        grid-column: span 1;
+      }
+    }
+    .product-form label,
+    .product-form input,
+    .product-form select,
+    .product-form textarea {
+      font-family: inherit;
+    }
+    .product-form input,
+    .product-form select,
+    .product-form textarea {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.35);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .product-form input:focus,
+    .product-form select:focus,
+    .product-form textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22);
+      outline: none;
+    }
+    .product-form .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+    .empty-state {
+      padding: 48px 32px;
+      text-align: center;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      font-size: 1rem;
+      display: grid;
+      gap: 12px;
+    }
+    .empty-state h4 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--text-main);
+    }
+    .empty-state p {
+      margin: 0;
+    }
+    .loading-state,
+    .error-state {
+      padding: 40px 32px;
+      text-align: center;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      display: grid;
+      gap: 10px;
+      font-size: 0.95rem;
+      justify-items: center;
+    }
+    .loading-state::before {
+      content: '';
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 3px solid rgba(148, 163, 184, 0.25);
+      border-top-color: var(--accent);
+      animation: spin 0.9s linear infinite;
+    }
+    .loading-state h4,
+    .error-state h4 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--text-main);
+    }
+    .loading-state p,
+    .error-state p {
+      margin: 0;
+    }
+    .error-state {
+      border-color: rgba(248, 113, 113, 0.45);
+      color: #fca5a5;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      box-shadow: none !important;
+    }
+
+
+    /* Orders Section Styles */
+    .orders-section {
+      display: none;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .orders-section .inventory-header {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .orders-section select {
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.35);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+    .orders-section select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.22);
+    }
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 26px;
+    }
+    .order-card {
+      background: var(--bg-elevated);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      box-shadow: 0 32px 60px rgba(8, 13, 23, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      gap: 12px;
+    }
+    .order-id {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    .order-status {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-pending {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fbbf24;
+    }
+    .status-accepted {
+      background: rgba(34, 197, 94, 0.18);
+      color: #4ade80;
+    }
+    .status-rejected {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+    }
+    .status-completed {
+      background: rgba(59, 130, 246, 0.18);
+      color: #bfdbfe;
+    }
+    .order-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.45);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+    .item-name {
+      font-weight: 600;
+    }
+    .item-quantity {
+      color: var(--text-muted);
+    }
+    .order-total {
+      font-weight: 700;
+      color: var(--accent);
+      text-align: right;
+      font-size: 1.1rem;
+    }
+    .order-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .order-btn {
+      flex: 1;
+      padding: 12px 0;
+      color: var(--text-main);
+    }
+    .order-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .accept-btn {
+      background: rgba(34, 197, 94, 0.18);
+      color: #4ade80;
+    }
+    .accept-btn:hover {
+      box-shadow: 0 20px 45px rgba(34, 197, 94, 0.3);
+    }
+    .reject-btn {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+    }
+    .reject-btn:hover {
+      box-shadow: 0 20px 45px rgba(239, 68, 68, 0.38);
+    }
+    .complete-btn {
+      background: rgba(59, 130, 246, 0.18);
+      color: #bfdbfe;
+    }
+    .complete-btn:hover {
+      box-shadow: 0 20px 45px rgba(59, 130, 246, 0.38);
+    }
+    .buyer-info {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: grid;
+      gap: 6px;
+    }
+
+    /* Earnings Section Styles */
+    .earnings-section {
+      display: none;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .earnings-header {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .earnings-card {
+      background: var(--bg-elevated);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 26px;
+      box-shadow: 0 28px 55px rgba(8, 13, 23, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .earnings-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+    .earnings-amount {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .earnings-trend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .earnings-chart {
+      background: var(--bg-elevated);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      padding: 32px;
+      box-shadow: 0 32px 70px rgba(8, 13, 23, 0.5);
+    }
+    .transactions {
+      background: var(--bg-elevated);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      padding: 32px;
+      box-shadow: 0 32px 70px rgba(8, 13, 23, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .transactions h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    }
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+    .transaction-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .transaction-title {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .transaction-date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .transaction-amount {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .amount-credit {
+      color: #4ade80;
+    }
+    .amount-debit {
+      color: #f87171;
+    }
+    .notifications-section {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .notification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .notification-item {
+      background: var(--bg-elevated);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 22px;
+      box-shadow: 0 28px 55px rgba(8, 13, 23, 0.45);
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .notification-item.unread::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 28px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .notification-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      background: rgba(6, 182, 212, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notification-icon i {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .notification-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .notification-title {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+    .notification-message {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+    .notification-time {
+      color: rgba(148, 163, 184, 0.6);
+      font-size: 0.8rem;
+    }
+    .notification-item.order i {
+      color: #60a5fa;
+    }
+    .notification-item.payment i {
+      color: #34d399;
+    }
+    .notification-item.alert i {
+      color: #f87171;
+    }
+    .notification-item.stock i {
+      color: #f59e0b;
+    }
+    .notification-item.profile i {
+      color: #8b5cf6;
+    }
+    .notification-mark-read {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      opacity: 0.7;
+    }
+    .notification-mark-read:hover {
+      opacity: 1;
+      background: rgba(34, 197, 94, 0.25);
+      transform: scale(1.1);
+    }
+    .notification-mark-read i {
+      font-size: 0.9rem;
+    }
+    .notification-badge {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    .clear-notifications {
+      align-self: flex-start;
+      padding: 10px 24px;
+      background: rgba(6, 182, 212, 0.16);
+      color: var(--accent);
+      border: 1px solid var(--accent-muted);
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clear-notifications:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 45px rgba(6, 182, 212, 0.25);
+      background: rgba(6, 182, 212, 0.25);
+    }
+    .notification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .loading-state, .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .loading-state h4, .error-state h4 {
+      margin: 0 0 12px 0;
+      font-size: 1.2rem;
+      color: var(--text-main);
+    }
+    .loading-state p, .error-state p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .empty-state h4 {
+      margin: 0 0 12px 0;
+      font-size: 1.3rem;
+      color: var(--text-main);
+    }
+    .empty-state p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      .main-content {
+        margin-left: 240px;
+        width: calc(100% - 240px);
+      }
+    }
+    @media (max-width: 860px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 18px 40px rgba(8, 13, 23, 0.35);
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+      .floating-sell-btn {
+        right: 20px;
+        bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-bg"></div>
+  <div class="sidebar">
+    <h4>Farmer Dashboard</h4>
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link active" href="#" id="nav-profile"><i class="lucide lucide-user"></i> Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" id="nav-inventory"><i class="lucide lucide-box"></i> Inventory</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" id="nav-orders"><i class="lucide lucide-shopping-cart"></i> Orders</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" id="nav-earnings"><i class="lucide lucide-wallet"></i> Earnings</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" id="nav-notifications"><i class="lucide lucide-bell"></i> Notifications</a></li>
+      <li class="nav-item"><a class="nav-link" href="/login.html"><i class="lucide lucide-log-out"></i> Logout</a></li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <div id="profile-section" class="profile-card">
+      <div class="profile-header">
+        <img id="profile-img" class="profile-img" src="/uploads/users/default-avatar.png" alt="Profile Image">
+        <div class="profile-info">
+          <h2 id="profile-name">Name</h2>
+          <div class="profile-details">
+            <div class="detail-item">
+              <i class="lucide lucide-mail"></i>
+              <span id="profile-email">Email</span>
+            </div>
+            <div class="detail-item">
+              <i class="lucide lucide-phone"></i>
+              <span id="profile-phone">Phone</span>
+            </div>
+            <div class="detail-item">
+              <i class="lucide lucide-tag"></i>
+              <span id="profile-category">Category</span>
+            </div>
+          </div>
+          <button class="edit-btn" onclick="editProfile()">
+            <i class="lucide lucide-edit-2"></i>
+            Edit Profile
+          </button>
+        </div>
+      </div>
+      <div class="profile-section">
+        <div class="status-toggle">
+          <span>Account Status:</span>
+          <div id="status-switch" class="status-switch"><div class="status-knob"></div></div>
+          <span id="status-label">Stopped</span>
+        </div>
+      </div>
+      <div class="profile-section">
+        <div class="location-info">
+          <i class="lucide lucide-map-pin"></i>
+          <div>
+            <h3>Location</h3>
+            <p id="location-address">Loading address...</p>
+          </div>
+        </div>
+      </div>
+      <div id="map" class="map"></div>
+      <form id="profile-form" class="profile-form" style="display:none;">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <select name="category" required>
+          <option value="fruits">Fruits</option>
+          <option value="vegetables">Vegetables</option>
+          <option value="grains">Grains</option>
+          <option value="dairy">Dairy</option>
+          <option value="others">Others</option>
+        </select>
+        <input type="text" name="location" placeholder="Location (address)" required>
+        <input type="file" name="profileImage" accept="image/*">
+        <button type="submit" class="save-btn">Save</button>
+        <button type="button" class="edit-btn" onclick="cancelEdit()">Cancel</button>
+      </form>
+      <div id="profile-message" style="color:#27ae60; margin-top:8px;"></div>
+    </div>
+
+    <div id="inventory-section" class="profile-card inventory-section">
+      <div class="inventory-header">
+        <h2>My Products</h2>
+        <button class="add-product-btn" onclick="showAddProduct()">
+          <i class="lucide lucide-plus"></i> Add Product
+        </button>
+      </div>
+
+      <div class="inventory-toolbar">
+        <div class="category-filter-list" id="category-filter-list"></div>
+        <div class="inventory-summary" id="inventory-summary"></div>
+      </div>
+      
+      <form id="product-form" class="product-form">
+        <h3>Product details</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="productCategory">Category</label>
+            <select id="productCategory" name="category" required>
+              <option value="vegetables">Vegetables</option>
+              <option value="fruits">Fruits</option>
+              <option value="grains">Grains</option>
+              <option value="dairy">Dairy</option>
+              <option value="flowers">Flowers</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="productUnit">Unit</label>
+            <select id="productUnit" name="unit" required>
+              <option value="kg">Kilogram (kg)</option>
+              <option value="gram">Gram (g)</option>
+              <option value="piece">Piece</option>
+              <option value="dozen">Dozen</option>
+              <option value="bundle">Bundle</option>
+              <option value="litre">Litre (L)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" id="productPrice" name="price" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="productQuantity">Quantity</label>
+            <input type="number" id="productQuantity" name="quantity" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="productMinOrder">Minimum Order</label>
+            <input type="number" id="productMinOrder" name="minOrderQuantity" min="1" step="1">
+          </div>
+          <div class="form-group span-2">
+            <label for="productDescription">Description</label>
+            <textarea id="productDescription" name="description" rows="3" required></textarea>
+          </div>
+          <div class="form-group span-2">
+            <label for="productImage">Product Image</label>
+            <input type="file" id="productImage" name="images" accept="image/*">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="edit-btn" onclick="hideProductForm()">Cancel</button>
+          <button type="submit" class="save-btn">Save Product</button>
+        </div>
+      </form>
+
+      <div id="product-grid" class="product-grid">
+        <!-- Products will be loaded here dynamically -->
+      </div>
+    </div>
+
+    <div id="orders-section" class="profile-card orders-section">
+      <div class="inventory-header">
+        <h2>Orders</h2>
+        <div class="orders-filter">
+          <select id="order-status-filter" onchange="filterOrders()">
+            <option value="all">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="accepted">Accepted</option>
+            <option value="completed">Completed</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+      
+      <div id="orders-grid" class="orders-grid">
+        <!-- Orders will be loaded here dynamically -->
+      </div>
+    </div>
+
+    <div id="earnings-section" class="profile-card earnings-section">
+      <div class="earnings-header">
+        <div class="earnings-card">
+          <h3>Total Earnings</h3>
+          <div id="total-earnings" class="earnings-amount">₹0.00</div>
+          <div class="earnings-trend">
+            <i class="lucide lucide-trending-up"></i>
+            <span id="earnings-percentage">0%</span> vs last month
+          </div>
+        </div>
+        <div class="earnings-card">
+          <h3>This Month</h3>
+          <div id="month-earnings" class="earnings-amount">₹0.00</div>
+          <div class="earnings-trend">
+            <i class="lucide lucide-trending-up"></i>
+            <span id="month-orders">0</span> orders
+          </div>
+        </div>
+        <div class="earnings-card">
+          <h3>Average Order Value</h3>
+          <div id="avg-order" class="earnings-amount">₹0.00</div>
+          <div class="earnings-trend">
+            Per order
+          </div>
+        </div>
+      </div>
+
+      <div class="earnings-chart">
+        <canvas id="earnings-graph"></canvas>
+      </div>
+
+      <div class="transactions">
+        <h3>Recent Transactions</h3>
+        <div id="transactions-list">
+          <!-- Transactions will be loaded here dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <div id="notifications-section" class="profile-card notifications-section">
+      <div class="inventory-header">
+        <h2>Notifications</h2>
+        <button class="clear-notifications" onclick="clearAllNotifications()">Mark all as read</button>
+      </div>
+      <div id="notifications-list" class="notification-list">
+        <!-- Notifications will be loaded here dynamically -->
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7ZAdsXhxj3qQLPGvpX6GYYw4IaHEVBDI&amp;libraries=places"></script>
+  <script>
+    // Global variables for state management
+    const PRODUCT_CATEGORIES = [
+      { value: 'all', label: 'All' },
+      { value: 'vegetables', label: 'Vegetables' },
+      { value: 'fruits', label: 'Fruits' },
+      { value: 'grains', label: 'Grains' },
+      { value: 'dairy', label: 'Dairy' },
+      { value: 'flowers', label: 'Flowers' },
+      { value: 'others', label: 'Others' }
+    ];
+    const PRODUCT_UNITS = ['kg', 'gram', 'piece', 'dozen', 'bundle', 'litre'];
+    let selectedInventoryCategory = 'all';
+    let inventoryProducts = [];
+
+    const dashboardSections = ['profile-section', 'inventory-section', 'orders-section', 'earnings-section', 'notifications-section'];
+    const sectionLoaders = {
+      'inventory-section': () => loadInventory(),
+      'orders-section': () => loadOrders(),
+      'earnings-section': () => loadEarnings(),
+      'notifications-section': () => loadNotifications()
+    };
+    let activeSection = 'profile-section';
+
+    function showToast(type, message) {
+      const existing = document.querySelector('.notification.toast-instance');
+      if (existing) {
+        existing.remove();
+      }
+      const toast = document.createElement('div');
+      toast.className = `notification ${type} toast-instance`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        if (toast && toast.parentNode) {
+          toast.remove();
+        }
+      }, 4000);
+    }
+
+    function setContentState(containerId, state, title, message) {
+      const container = document.getElementById(containerId);
+      if (!container) {
+        return;
+      }
+      if (state === 'empty') {
+        container.innerHTML = `<div class="empty-state"><h4>${title}</h4><p>${message}</p></div>`;
+        return;
+      }
+      const className = state === 'error' ? 'error-state' : 'loading-state';
+      const heading = title ? `<h4>${title}</h4>` : '';
+      const body = message ? `<p>${message}</p>` : '';
+      container.innerHTML = `<div class="${className}">${heading}${body}</div>`;
+    }
+
+    function activateSection(sectionId) {
+      if (!dashboardSections.includes(sectionId)) {
+        return;
+      }
+      dashboardSections.forEach(id => {
+        const section = document.getElementById(id);
+        if (!section) {
+          return;
+        }
+        section.style.display = id === sectionId ? 'flex' : 'none';
+      });
+      activeSection = sectionId;
+      const loader = sectionLoaders[sectionId];
+      if (typeof loader === 'function') {
+        loader();
+      }
+    }
+
+    // Replace with actual farmer ID from login/session
+    const farmerId = localStorage.getItem('userId');
+    let farmerData = null;
+    function showMap(lat, lng, zoom) {
+      zoom = zoom || 14;
+      var mapDiv = document.getElementById('map');
+      var mapOptions = {
+        center: new google.maps.LatLng(lat, lng),
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: true,
+        zoomControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        fullscreenControl: true
+      };
+      
+      var map = new google.maps.Map(mapDiv, mapOptions);
+      
+      if (zoom <= 5) {
+        return;
+      }
+      
+      var position = new google.maps.LatLng(lat, lng);
+      var markerOptions = {
+        position: position,
+        map: map,
+        animation: google.maps.Animation.DROP
+      };
+      
+      if (farmerData && farmerData.name) {
+        markerOptions.title = farmerData.name;
+      }
+      
+      var marker = new google.maps.Marker(markerOptions);
+      
+      if (farmerData) {
+        var content = document.createElement('div');
+        content.style.padding = '8px';
+        
+        var name = document.createElement('strong');
+        name.textContent = farmerData.name;
+        content.appendChild(name);
+        
+        content.appendChild(document.createElement('br'));
+        
+        if (farmerData.location && farmerData.location.address) {
+          var address = document.createTextNode(farmerData.location.address);
+          content.appendChild(address);
+        }
+        
+        var infoWindow = new google.maps.InfoWindow({
+          content: content
+        });
+        
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
+      }
+    }
+
+    function geocodeAddress(address) {
+      if (!address) {
+        console.warn('No address provided for geocoding');
+        showMap(-1.2921, 36.8219, 5);
+        return;
+      }
+
+      var geocoder = new google.maps.Geocoder();
+      var request = {
+        address: address
+      };
+
+      geocoder.geocode(request, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK && results[0]) {
+          var location = results[0].geometry.location;
+          showMap(location.lat(), location.lng());
+        } else {
+          console.error('Geocoding failed:', status);
+          showMap(-1.2921, 36.8219, 5);
+        }
+      });
+    }
+    // Edit profile
+    function editProfile() {
+      document.getElementById('profile-form').style.display = 'flex';
+    }
+    function cancelEdit() {
+      document.getElementById('profile-form').style.display = 'none';
+    }
+    // Save profile
+    document.getElementById('profile-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      
+      try {
+        const token = localStorage.getItem('token');
+        
+        // Prepare profile data for update
+        const profileData = {
+          name: form.name.value,
+          phone: form.phone.value,
+          category: form.category.value
+        };
+        
+        // Handle location update
+        const address = form.location.value;
+        if (address && address.trim() !== '') {
+          // For now, send location as address - the backend can geocode it
+          const addressParts = address.split(',').map(part => part.trim());
+          if (addressParts.length >= 2) {
+            profileData.address = addressParts[0] || address;
+            profileData.city = addressParts[1] || '';
+            profileData.state = addressParts[2] || '';
+            profileData.pincode = addressParts[3] || '000000';
+          } else {
+            profileData.address = address;
+            profileData.city = '';
+            profileData.state = '';
+            profileData.pincode = '000000';
+          }
+        }
+        
+        // Send update request
+        const response = await fetch('/api/auth/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(profileData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          document.getElementById('profile-message').textContent = 'Profile updated successfully!';
+          document.getElementById('profile-message').style.color = '#22c55e';
+          document.getElementById('profile-form').style.display = 'none';
+          setTimeout(() => loadProfile(), 500);
+        } else {
+          document.getElementById('profile-message').textContent = result.message || 'Profile update failed';
+          document.getElementById('profile-message').style.color = '#ef4444';
+        }
+      } catch (error) {
+        console.error('Profile update error:', error);
+        document.getElementById('profile-message').textContent = 'Network error. Please try again.';
+        document.getElementById('profile-message').style.color = '#ef4444';
+      }
+    };
+    // Status toggle
+    document.getElementById('status-switch').onclick = async function() {
+      if (!farmerData) return;
+      
+      try {
+        const token = localStorage.getItem('token');
+        const currentActive = farmerData.status === 'active';
+        const newActive = !currentActive;
+        
+        const response = await fetch('/api/auth/status', {
+          method: 'PUT',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ isActive: newActive })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          farmerData.status = newActive ? 'active' : 'inactive';
+          document.getElementById('status-label').textContent = newActive ? 'Active' : 'Inactive';
+          document.getElementById('status-switch').classList.toggle('active', newActive);
+          showToast('success', `Account ${newActive ? 'activated' : 'deactivated'} successfully`);
+        } else {
+          showToast('error', result.message || 'Failed to update status');
+        }
+      } catch (error) {
+        console.error('Status update error:', error);
+        showToast('error', 'Network error. Please try again.');
+      }
+    };
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.id === 'nav-logout') {
+          e.preventDefault();
+          logout();
+          return;
+        }
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(item => item.classList.remove('active'));
+        link.classList.add('active');
+        const sectionId = `${link.id.replace('nav-', '')}-section`;
+        activateSection(sectionId);
+      });
+    });
+
+    activateSection('profile-section');
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('userId');
+      window.location.href = '/login.html';
+    }
+
+    // Inventory Management
+    let editingProductId = null;
+    
+    async function loadInventory() {
+      buildCategoryFilters();
+      setContentState('product-grid', 'loading', 'Loading products', 'Fetching your listed products...');
+      try {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId') || farmerId;
+        const res = await fetch(`/api/products/farmer/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          inventoryProducts = data.products || [];
+          setCategoryFilter(selectedInventoryCategory);
+          return;
+        }
+        setContentState('product-grid', 'error', 'Unable to load products', data.message || 'Please try again later');
+      } catch (error) {
+        console.error('Error loading inventory:', error);
+        setContentState('product-grid', 'error', 'Inventory load failed', 'Please refresh to try again.');
+      }
+    }
+
+    function buildCategoryFilters() {
+      const container = document.getElementById('category-filter-list');
+      if (!container || container.childElementCount) {
+        return;
+      }
+      PRODUCT_CATEGORIES.forEach(({ value, label }) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.category = value;
+        button.className = `category-filter-btn${value === selectedInventoryCategory ? ' active' : ''}`;
+        button.textContent = label;
+        button.onclick = () => setCategoryFilter(value);
+        container.appendChild(button);
+      });
+    }
+
+    function setCategoryFilter(category) {
+      selectedInventoryCategory = category;
+      const container = document.getElementById('category-filter-list');
+      if (container) {
+        container.querySelectorAll('.category-filter-btn').forEach((button) => {
+          button.classList.toggle('active', button.dataset.category === category);
+        });
+      }
+      renderInventoryList();
+      updateInventorySummary();
+    }
+
+    async function submitProductForm(form) {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Authentication token not found');
+        }
+
+        const formData = new FormData(form);
+        
+        // Add required fields with proper validation
+        const harvestDate = formData.get('harvestDate');
+        const expiryDate = formData.get('expiryDate');
+        
+        // Set default dates if not provided
+        const defaultHarvestDate = harvestDate || new Date().toISOString();
+        const defaultExpiryDate = expiryDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days from now
+        
+        formData.set('harvestDate', defaultHarvestDate);
+        formData.set('expiryDate', defaultExpiryDate);
+
+        // Set isOrganic if not provided
+        if (!formData.has('isOrganic')) {
+          formData.set('isOrganic', 'false');
+        }
+
+        const method = editingProductId ? 'PUT' : 'POST';
+        const url = editingProductId ? `/api/products/${editingProductId}` : '/api/products';
+
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || `HTTP ${response.status}: Failed to save product`);
+        }
+
+        const result = await response.json();
+        
+        if (result.success) {
+          // Reload products from server to get updated data
+          await loadInventory();
+          return { success: true, message: result.message || 'Product saved successfully' };
+        } else {
+          throw new Error(result.message || 'Failed to save product');
+        }
+      } catch (error) {
+        console.error('Error saving product:', error);
+        return { 
+          success: false, 
+          message: error.message.includes('Authentication') ? 'Please log in again' : 'Failed to save product'
+        };
+      }
+    }
+
+    function renderInventoryList() {
+      const grid = document.getElementById('product-grid');
+      if (!grid) {
+        return;
+      }
+      const list = selectedInventoryCategory === 'all'
+        ? inventoryProducts
+        : inventoryProducts.filter((product) => (product.category || '').toLowerCase() === selectedInventoryCategory);
+      if (!list.length) {
+        const label = PRODUCT_CATEGORIES.find((item) => item.value === selectedInventoryCategory)?.label || 'this category';
+        grid.innerHTML = `<div class="empty-state"><h4>No products in ${label}</h4><p>Use Add Product to showcase what you are selling.</p></div>`;
+        return;
+      }
+      grid.innerHTML = list.map((product) => {
+        const image = product.image || (product.images && product.images[0]?.url) || '/uploads/products/default-product.png';
+        const quantity = Number(product.quantity ?? product.stock ?? 0);
+        const unit = product.unit || 'unit';
+        const categoryLabel = PRODUCT_CATEGORIES.find((item) => item.value === (product.category || '').toLowerCase())?.label || (product.category || '');
+        const active = product.isActive !== false && quantity > 0;
+        return `
+          <div class="product-card">
+            <img src="${image}" alt="${product.name}" class="product-img">
+            <div class="product-info">
+              <div class="product-meta">
+                <span>${categoryLabel}</span>
+                <span>${active ? 'Active' : 'Inactive'}</span>
+              </div>
+              <div class="product-name">${product.name}</div>
+              <div class="product-price">₹${Number(product.price || 0).toFixed(2)} per ${unit}</div>
+              <div class="product-stock">Stock: ${quantity} ${unit}</div>
+              <div class="product-actions">
+                <button class="product-action-btn edit-product" onclick="editProduct('${product._id}')">Edit</button>
+                <button class="product-action-btn delete-product" onclick="deleteProduct('${product._id}')">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateInventorySummary() {
+      const summary = document.getElementById('inventory-summary');
+      if (!summary) {
+        return;
+      }
+      const total = inventoryProducts.length;
+      const active = inventoryProducts.filter((product) => {
+        const quantity = Number(product.quantity ?? product.stock ?? 0);
+        return product.isActive !== false && quantity > 0;
+      }).length;
+      const currentLabel = PRODUCT_CATEGORIES.find((item) => item.value === selectedInventoryCategory)?.label || 'All';
+      summary.textContent = `${active} active • ${total} total • ${currentLabel}`;
+    }
+
+    function showAddProduct() {
+      editingProductId = null;
+      const form = document.getElementById('product-form');
+      form.reset();
+      form.category.value = 'vegetables';
+      form.unit.value = PRODUCT_UNITS[0];
+      form.minOrderQuantity.value = '';
+      form.images.value = '';
+      form.classList.add('show');
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      form.name.focus();
+    }
+
+    function hideProductForm() {
+      document.getElementById('product-form').classList.remove('show');
+      editingProductId = null;
+    }
+
+    async function editProduct(productId) {
+      editingProductId = productId;
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          showToast('error', 'Please log in again');
+          return;
+        }
+
+        const response = await fetch(`/api/products/${productId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to load product details');
+        }
+
+        const result = await response.json();
+        const product = result.data || result;
+        
+        if (product) {
+          const form = document.getElementById('product-form');
+          form.name.value = product.name || '';
+          form.description.value = product.description || '';
+          form.category.value = (product.category || 'vegetables').toLowerCase();
+          form.unit.value = product.unit || PRODUCT_UNITS[0];
+          form.price.value = Number(product.price ?? 0);
+          form.quantity.value = Number(product.quantity ?? product.stock ?? 0);
+          form.minOrderQuantity.value = product.minOrderQuantity || '';
+          form.classList.add('show');
+          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          form.name.focus();
+        } else {
+          showToast('error', 'Could not find product details');
+        }
+      } catch (error) {
+        console.error('Error loading product:', error);
+        showToast('error', error.message.includes('Authentication') ? 'Please log in again' : 'Something went wrong while loading the product');
+      }
+    }
+
+    async function deleteProduct(productId) {
+      if (!confirm('Are you sure you want to delete this product?')) return;
+      
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          showToast('error', 'Please log in again');
+          return;
+        }
+
+        const response = await fetch(`/api/products/${productId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to delete product');
+        }
+
+        const result = await response.json();
+        
+        if (result.success) {
+          showToast('success', 'Product removed from your listings');
+          await loadInventory();
+        } else {
+          showToast('error', result.message || 'Unable to delete product');
+        }
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        showToast('error', error.message.includes('Authentication') ? 'Please log in again' : 'Something went wrong while deleting the product');
+      }
+    }
+
+    document.getElementById('product-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      setContentState('product-grid', 'loading', 'Saving product', 'Applying your changes...');
+      try {
+        const result = await submitProductForm(form);
+        if (result.success) {
+          showToast('success', editingProductId ? 'Product updated' : 'Product added');
+          hideProductForm();
+          await loadInventory();
+          return;
+        }
+        showToast('error', result.message || 'Unable to save product.');
+        loadInventory();
+      } catch (error) {
+        console.error('Error saving product:', error);
+        showToast('error', 'Something went wrong while saving the product');
+        loadInventory();
+      }
+    };
+
+    // Orders Management
+    let currentOrders = [];
+    
+    async function loadOrders() {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/farmer/orders/${farmerId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          currentOrders = data.orders;
+          filterOrders();
+        }
+      } catch (error) {
+        console.error('Error loading orders:', error);
+      }
+    }
+
+    function filterOrders() {
+      const statusFilter = document.getElementById('order-status-filter').value;
+      const filteredOrders = statusFilter === 'all' 
+        ? currentOrders 
+        : currentOrders.filter(order => order.status === statusFilter);
+      
+      renderOrders(filteredOrders);
+    }
+
+    function renderOrders(orders) {
+      const grid = document.getElementById('orders-grid');
+      grid.innerHTML = orders.map(order => `
+        <div class="order-card">
+          <div class="order-header">
+            <div class="order-id">#${order._id.slice(-6)}</div>
+            <div class="order-status status-${order.status}">${order.status}</div>
+          </div>
+          <div class="order-details">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <div class="item-name">${item.product.name}</div>
+                <div class="item-quantity">${item.quantity} ${item.product.unit}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-total">Total: ₹${order.total.toFixed(2)}</div>
+          <div class="order-actions">
+            ${order.status === 'pending' ? `
+              <button class="order-btn accept-btn" onclick="updateOrderStatus('${order._id}', 'accepted')">Accept</button>
+              <button class="order-btn reject-btn" onclick="updateOrderStatus('${order._id}', 'rejected')">Reject</button>
+            ` : ''}
+            ${order.status === 'accepted' ? `
+              <button class="order-btn complete-btn" onclick="updateOrderStatus('${order._id}', 'completed')">Mark Complete</button>
+            ` : ''}
+          </div>
+          <div class="buyer-info">
+            <div>Buyer: ${order.buyer.name}</div>
+            <div>Phone: ${order.buyer.phone}</div>
+            <div>Delivery Address: ${order.deliveryAddress}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          showToast('error', 'You need to log in again');
+          return;
+        }
+
+        const res = await fetch(`/api/orders/${orderId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || 'Failed to update order status');
+        }
+
+        const order = currentOrders.find(o => o._id === orderId);
+        if (order) {
+          order.status = status;
+        }
+
+        filterOrders();
+        showToast('success', `Order ${status} successfully`);
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        showToast('error', error.message || 'Failed to update order status');
+      }
+    }
+
+    // Earnings Management
+    let earningsChart = null;
+
+    async function loadEarnings() {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/farmer/earnings/${farmerId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          updateEarningsStats(data.stats);
+          updateEarningsChart(data.monthlyEarnings);
+          updateTransactions(data.transactions);
+        }
+      } catch (error) {
+        console.error('Error loading earnings:', error);
+      }
+    }
+
+    function updateEarningsStats(stats) {
+      document.getElementById('total-earnings').textContent = `₹${stats.totalEarnings.toFixed(2)}`;
+      document.getElementById('month-earnings').textContent = `₹${stats.monthEarnings.toFixed(2)}`;
+      document.getElementById('avg-order').textContent = `₹${stats.averageOrderValue.toFixed(2)}`;
+      
+      const baseline = stats.lastMonthEarnings || 1;
+      const percentageChange = ((stats.monthEarnings - baseline) / baseline * 100).toFixed(1);
+      document.getElementById('earnings-percentage').textContent = `${Math.abs(percentageChange)}%`;
+      document.getElementById('earnings-percentage').parentElement.querySelector('i').className = 
+        `lucide lucide-trending-${percentageChange >= 0 ? 'up' : 'down'}`;
+      
+      document.getElementById('month-orders').textContent = stats.monthOrders;
+    }
+
+    function updateEarningsChart(monthlyData) {
+      const ctx = document.getElementById('earnings-graph').getContext('2d');
+      
+      if (earningsChart) {
+        earningsChart.destroy();
+      }
+
+      const months = monthlyData.map(d => d.month);
+      const earnings = monthlyData.map(d => d.earnings);
+
+      earningsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Monthly Earnings',
+            data: earnings,
+            borderColor: '#00CC99',
+            backgroundColor: 'rgba(0, 204, 153, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateTransactions(transactions) {
+      const list = document.getElementById('transactions-list');
+      list.innerHTML = transactions.map(tx => `
+        <div class="transaction-item">
+          <div class="transaction-info">
+            <div class="transaction-title">Order #${tx.orderId.slice(-6)}</div>
+            <div class="transaction-date">${new Date(tx.date).toLocaleDateString()}</div>
+          </div>
+          <div class="transaction-amount ${tx.type === 'credit' ? 'amount-credit' : 'amount-debit'}">
+            ${tx.type === 'credit' ? '+' : '-'}₹${tx.amount.toFixed(2)}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Navigation functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Remove active class from all nav links
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        
+        // Add active class to clicked link
+        link.classList.add('active');
+        
+        // Get section ID from nav link ID
+        const sectionId = link.id.replace('nav-', '') + '-section';
+        
+        // Activate the section
+        activateSection(sectionId);
+      });
+    });
+
+    // Notifications Management
+    let notificationsWebSocket = null;
+
+    function connectWebSocket() {
+      // Mock WebSocket for demo - in real app, use actual WebSocket
+      console.log('WebSocket connection simulated for demo');
+      
+      // Simulate receiving notifications every 30 seconds
+      setInterval(() => {
+        if (Math.random() > 0.7) { // 30% chance
+          const randomNotifications = [
+            { type: 'order', title: 'New Order', message: 'You received a new order' },
+            { type: 'payment', title: 'Payment Received', message: 'Payment has been credited' },
+            { type: 'alert', title: 'Stock Alert', message: 'Product running low on stock' }
+          ];
+          const notification = randomNotifications[Math.floor(Math.random() * randomNotifications.length)];
+          addNotification(notification);
+        }
+      }, 30000);
+    }
+
+    async function loadNotifications() {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/farmer/notifications/${farmerId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          renderNotifications(data.notifications);
+        }
+      } catch (error) {
+        console.error('Error loading notifications:', error);
+      }
+    }
+
+    function renderNotifications(notifications) {
+      const list = document.getElementById('notifications-list');
+      list.innerHTML = notifications.map(notification => `
+        <div class="notification-item ${notification.read ? '' : 'unread'} ${notification.type}">
+          <div class="notification-icon">
+            <i class="lucide lucide-${getNotificationIcon(notification.type)}"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">${notification.title}</div>
+            <div class="notification-message">${notification.message}</div>
+            <div class="notification-time">${formatNotificationTime(notification.createdAt)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getNotificationIcon(type) {
+      const icons = {
+        order: 'shopping-cart',
+        payment: 'credit-card',
+        alert: 'alert-triangle',
+        info: 'info'
+      };
+      return icons[type] || 'bell';
+    }
+
+    function formatNotificationTime(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = now - date;
+      
+      if (diff < 60000) { // less than 1 minute
+        return 'Just now';
+      } else if (diff < 3600000) { // less than 1 hour
+        const minutes = Math.floor(diff / 60000);
+        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      } else if (diff < 86400000) { // less than 1 day
+        const hours = Math.floor(diff / 3600000);
+        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+      } else if (diff < 604800000) { // less than 1 week
+        const days = Math.floor(diff / 86400000);
+        return `${days} day${days > 1 ? 's' : ''} ago`;
+      } else {
+        return date.toLocaleDateString();
+      }
+    }
+
+    function addNotification(notification) {
+      const list = document.getElementById('notifications-list');
+      const notificationHTML = `
+        <div class="notification-item unread ${notification.type}">
+          <div class="notification-icon">
+            <i class="lucide lucide-${getNotificationIcon(notification.type)}"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">${notification.title}</div>
+            <div class="notification-message">${notification.message}</div>
+            <div class="notification-time">Just now</div>
+          </div>
+        </div>
+      `;
+      list.insertAdjacentHTML('afterbegin', notificationHTML);
+    }
+
+    async function clearAllNotifications() {
+      try {
+        // For demo, clear locally
+        document.querySelectorAll('.notification-item').forEach(item => {
+          item.classList.remove('unread');
+        });
+        showToast('success', 'All notifications marked as read');
+
+        // In real app, uncomment this server call:
+        /*
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/farmer/notifications/${farmerId}/clear`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          document.querySelectorAll('.notification-item').forEach(item => {
+            item.classList.remove('unread');
+          });
+        }
+        */
+      } catch (error) {
+        console.error('Error clearing notifications:', error);
+        showToast('error', 'Failed to clear notifications');
+      }
+    }
+
+    // Status toggle functionality
+    document.getElementById('status-switch').addEventListener('click', function() {
+      this.classList.toggle('active');
+      const isActive = this.classList.contains('active');
+      document.getElementById('status-label').textContent = isActive ? 'Active' : 'Stopped';
+      
+      // In a real app, this would save to server
+      showToast('success', `Status changed to ${isActive ? 'Active' : 'Stopped'}`);
+    });
+
+    // Add missing functions
+    function editProfile() {
+      const profileInfo = document.querySelector('.profile-info').parentElement;
+      const profileForm = document.getElementById('profile-form');
+      
+      profileInfo.style.display = 'none';
+      profileForm.style.display = 'flex';
+    }
+
+    function cancelEdit() {
+      const profileInfo = document.querySelector('.profile-info').parentElement;
+      const profileForm = document.getElementById('profile-form');
+      
+      profileInfo.style.display = 'flex';
+      profileForm.style.display = 'none';
+    }
+
+    // Handle profile form submission
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      // Update farmer data with form values
+      farmerData.name = formData.get('name');
+      farmerData.email = formData.get('email');
+      farmerData.phone = formData.get('phone');
+      farmerData.category = formData.get('category');
+      farmerData.location.address = formData.get('location');
+      
+      // Update UI
+      document.getElementById('profile-name').textContent = farmerData.name;
+      document.getElementById('profile-email').textContent = farmerData.email;
+      document.getElementById('profile-phone').textContent = farmerData.phone;
+      document.getElementById('profile-category').textContent = farmerData.category;
+      document.getElementById('location-address').textContent = farmerData.location.address;
+      
+      // Hide form
+      cancelEdit();
+      showToast('success', 'Profile updated successfully');
+    });
+
+
+
+
+
+    // Notifications management
+    let currentNotifications = [];
+
+    async function loadNotifications() {
+      try {
+        setContentState('notifications-list', 'loading', 'Loading notifications', 'Fetching your latest notifications...');
+        
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/notifications', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            currentNotifications = data.notifications || [];
+            renderNotifications(currentNotifications);
+            updateNotificationBadge();
+            return;
+          }
+        }
+        
+        setContentState('notifications-list', 'error', 'Unable to load notifications', 'Please try again later.');
+      } catch (error) {
+        console.error('Error loading notifications:', error);
+        setContentState('notifications-list', 'error', 'Notifications load failed', 'Please refresh to try again.');
+      }
+    }
+
+    function renderNotifications(notifications) {
+      const container = document.getElementById('notifications-list');
+      if (!container) return;
+
+      if (!notifications.length) {
+        container.innerHTML = '<div class="empty-state"><h4>No notifications</h4><p>You\'re all caught up! New notifications will appear here.</p></div>';
+        return;
+      }
+
+      container.innerHTML = notifications.map(notification => {
+        const timeAgo = getTimeAgo(notification.createdAt);
+        const iconMap = {
+          order: 'shopping-cart',
+          payment: 'credit-card',
+          alert: 'alert-triangle',
+          info: 'info',
+          stock: 'package',
+          profile: 'user'
+        };
+        const icon = iconMap[notification.type] || 'bell';
+        
+        return `
+          <div class="notification-item ${notification.type} ${!notification.read ? 'unread' : ''}" data-id="${notification._id}">
+            <div class="notification-icon">
+              <i class="lucide lucide-${icon}"></i>
+            </div>
+            <div class="notification-content">
+              <div class="notification-title">${notification.title}</div>
+              <div class="notification-message">${notification.message}</div>
+              <div class="notification-time">${timeAgo}</div>
+            </div>
+            ${!notification.read ? `
+              <button class="notification-mark-read" onclick="markNotificationAsRead('${notification._id}')" title="Mark as read">
+                <i class="lucide lucide-check"></i>
+              </button>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateNotificationBadge() {
+      const unreadCount = currentNotifications.filter(n => !n.read).length;
+      const navLink = document.getElementById('nav-notifications');
+      
+      // Remove existing badge
+      const existingBadge = navLink.querySelector('.notification-badge');
+      if (existingBadge) {
+        existingBadge.remove();
+      }
+      
+      // Add new badge if there are unread notifications
+      if (unreadCount > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'notification-badge';
+        badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+        badge.style.cssText = `
+          position: absolute;
+          top: -2px;
+          right: -2px;
+          background: #ef4444;
+          color: white;
+          border-radius: 10px;
+          padding: 2px 6px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          min-width: 16px;
+          text-align: center;
+          line-height: 1.2;
+        `;
+        navLink.style.position = 'relative';
+        navLink.appendChild(badge);
+      }
+    }
+
+    async function markNotificationAsRead(notificationId) {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/notifications/${notificationId}/read`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Update local state
+          const notification = currentNotifications.find(n => n._id === notificationId);
+          if (notification) {
+            notification.read = true;
+          }
+          renderNotifications(currentNotifications);
+          updateNotificationBadge();
+        } else {
+          // Fallback for demo - just update locally
+          const notification = currentNotifications.find(n => n._id === notificationId);
+          if (notification) {
+            notification.read = true;
+          }
+          renderNotifications(currentNotifications);
+          updateNotificationBadge();
+        }
+      } catch (error) {
+        console.error('Error marking notification as read:', error);
+        // Fallback for demo - just update locally
+        const notification = currentNotifications.find(n => n._id === notificationId);
+        if (notification) {
+          notification.read = true;
+        }
+        renderNotifications(currentNotifications);
+        updateNotificationBadge();
+      }
+    }
+
+    async function clearAllNotifications() {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/notifications/mark-all-read', {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Update local state
+          currentNotifications.forEach(n => n.read = true);
+          renderNotifications(currentNotifications);
+          updateNotificationBadge();
+          showToast('success', 'All notifications marked as read');
+        } else {
+          // Fallback for demo
+          currentNotifications.forEach(n => n.read = true);
+          renderNotifications(currentNotifications);
+          updateNotificationBadge();
+          showToast('success', 'All notifications marked as read');
+        }
+      } catch (error) {
+        console.error('Error clearing notifications:', error);
+        // Fallback for demo
+        currentNotifications.forEach(n => n.read = true);
+        renderNotifications(currentNotifications);
+        updateNotificationBadge();
+        showToast('success', 'All notifications marked as read');
+      }
+    }
+
+    function getTimeAgo(date) {
+      const now = new Date();
+      const time = new Date(date);
+      const diffInSeconds = Math.floor((now - time) / 1000);
+      
+      if (diffInSeconds < 60) return 'Just now';
+      if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+      if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+      if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+      return time.toLocaleDateString();
+    }
+
+    // Real-time notification system
+    function addNewNotification(notification) {
+      currentNotifications.unshift(notification);
+      if (activeSection === 'notifications-section') {
+        renderNotifications(currentNotifications);
+      }
+      updateNotificationBadge();
+      
+      // Show toast notification
+      showToast('info', notification.title);
+    }
+
+    // WebSocket simulation for demo purposes
+    function connectWebSocket() {
+      console.log('WebSocket connection simulated for demo');
+      
+      // Simulate receiving notifications periodically for demo
+      setTimeout(() => {
+        addNewNotification({
+          _id: 'demo_' + Date.now(),
+          type: 'order',
+          title: 'New Order Alert',
+          message: 'A customer is interested in your Fresh Tomatoes',
+          read: false,
+          createdAt: new Date()
+        });
+      }, 30000); // 30 seconds after page load
+    }
+
+    // Load farmer profile from API
+    async function loadProfile() {
+      const profileCard = document.getElementById('profile-section');
+      profileCard.classList.add('loading');
+      
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          window.location.href = '/login.html';
+          return;
+        }
+
+        const response = await fetch('/api/auth/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: Failed to fetch profile`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && data.data && data.data.user) {
+          const userData = data.data.user;
+          farmerData = {
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            category: userData.role === 'farmer' ? (userData.category || 'General') : 'Farmer',
+            status: userData.isActive ? 'active' : 'inactive',
+            location: {
+              address: userData.location?.address || 'Address not provided',
+              lat: userData.location?.coordinates?.[1] || 0,
+              lng: userData.location?.coordinates?.[0] || 0
+            },
+            profileImage: userData.profileImage || '/uploads/users/default-avatar.png'
+          };
+          console.log('Profile loaded successfully:', farmerData);
+        } else {
+          throw new Error(data.message || 'Failed to load profile data');
+        }
+      } catch (error) {
+        console.error('Error loading farmer profile:', error);
+        showToast('error', 'Failed to load profile: ' + error.message);
+        if (error.message.includes('401') || error.message.includes('Unauthorized') || error.message.includes('Invalid token')) {
+          localStorage.clear();
+          window.location.href = '/login.html';
+          return;
+        }
+      }
+
+      // Update profile image with fallback
+      const profileImg = document.getElementById('profile-img');
+      profileImg.src = farmerData.profileImage || '/uploads/users/default-avatar.png';
+      profileImg.onerror = () => profileImg.src = '/uploads/users/default-avatar.png';
+
+      // Update profile details
+      document.getElementById('profile-name').textContent = farmerData.name;
+      document.getElementById('profile-email').textContent = farmerData.email;
+      document.getElementById('profile-phone').textContent = farmerData.phone;
+      document.getElementById('profile-category').textContent = farmerData.category || 'Farmer';
+      
+      // Update location
+      document.getElementById('location-address').textContent = farmerData.location.address || 'No address provided';
+      
+      // Update status
+      const isActive = farmerData.status === 'active';
+      document.getElementById('status-label').textContent = isActive ? 'Active' : 'Inactive';
+      document.getElementById('status-switch').classList.toggle('active', isActive);
+
+      // Remove loading state
+      profileCard.classList.remove('loading');
+
+      // Set form values
+      const form = document.getElementById('profile-form');
+      form.name.value = farmerData.name;
+      form.email.value = farmerData.email;
+      form.phone.value = farmerData.phone;
+      form.category.value = farmerData.category;
+      form.location.value = farmerData.location.address;
+
+      // Load map
+      if (farmerData.location?.lat && farmerData.location?.lng) {
+        showMap(farmerData.location.lat, farmerData.location.lng);
+      }
+    }
+
+    // Sell panel toggle function
+    function toggleSellPanel() {
+      // Switch to inventory section and show add product form
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      document.getElementById('nav-inventory').classList.add('active');
+      activateSection('inventory-section');
+      
+      // Show add product form after a brief delay
+      setTimeout(() => {
+        showAddProduct();
+      }, 300);
+    }
+
+    // Set up navigation immediately
+    function setupNavigation() {
+      document.getElementById('nav-profile').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        activateSection('profile-section');
+      });
+
+      document.getElementById('nav-inventory').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        activateSection('inventory-section');
+      });
+
+      document.getElementById('nav-orders').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        activateSection('orders-section');
+      });
+
+      document.getElementById('nav-earnings').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        activateSection('earnings-section');
+      });
+
+      document.getElementById('nav-notifications').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        activateSection('notifications-section');
+      });
+    }
+
+    // Profile completion functionality
+    function checkProfileCompletion() {
+      const needsCompletion = localStorage.getItem('needsProfileCompletion');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      
+      if (needsCompletion === 'true' || user.profileComplete === false) {
+        showProfileCompletionModal();
+      }
+    }
+
+    function showProfileCompletionModal() {
+      // Create profile completion modal
+      const modalHtml = `
+        <div id="profile-completion-modal" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          backdrop-filter: blur(8px);
+        ">
+          <div style="
+            background: var(--bg-panel);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            color: var(--text-main);
+          ">
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <i class="fas fa-map-marker-alt" style="font-size: 2rem; color: #4CAF50; margin-bottom: 1rem;"></i>
+              <h2 style="margin: 0; color: var(--text-main);">Complete Your Profile</h2>
+              <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                Add your location details to help buyers find you and enable accurate delivery calculations.
+              </p>
+            </div>
+            
+            <form id="profile-completion-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="color: var(--text-muted); font-weight: 600;">Address</label>
+                <input type="text" name="address" required style="
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: 10px;
+                  background: rgba(15,23,42,0.4);
+                  color: var(--text-main);
+                  outline: none;
+                " placeholder="Street address, village/area">
+              </div>
+              
+              <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label style="color: var(--text-muted); font-weight: 600;">City</label>
+                  <input type="text" name="city" required style="
+                    padding: 12px;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    background: rgba(15,23,42,0.4);
+                    color: var(--text-main);
+                    outline: none;
+                  ">
+                </div>
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label style="color: var(--text-muted); font-weight: 600;">State</label>
+                  <input type="text" name="state" required style="
+                    padding: 12px;
+                    border: 1px solid var(--border);
+                    border-radius: 10px;
+                    background: rgba(15,23,42,0.4);
+                    color: var(--text-main);
+                    outline: none;
+                  ">
+                </div>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="color: var(--text-muted); font-weight: 600;">Pincode</label>
+                <input type="text" name="pincode" pattern="[0-9]{6}" maxlength="6" required style="
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: 10px;
+                  background: rgba(15,23,42,0.4);
+                  color: var(--text-main);
+                  outline: none;
+                " placeholder="123456">
+              </div>
+              
+              <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="button" onclick="skipProfileCompletion()" style="
+                  flex: 1;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: 50px;
+                  background: transparent;
+                  color: var(--text-muted);
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                ">Complete Later</button>
+                <button type="submit" style="
+                  flex: 2;
+                  padding: 12px;
+                  border: none;
+                  border-radius: 50px;
+                  background: linear-gradient(135deg, #4CAF50, #45a049);
+                  color: white;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                ">Complete Profile</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      
+      // Handle form submission
+      document.getElementById('profile-completion-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await completeProfile(e.target);
+      });
+    }
+
+    async function completeProfile(form) {
+      const formData = new FormData(form);
+      const profileData = {
+        address: formData.get('address'),
+        city: formData.get('city'),
+        state: formData.get('state'),
+        pincode: formData.get('pincode')
+      };
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/auth/complete-profile', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(profileData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Update stored user data
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          user.profileComplete = true;
+          user.location = data.data.user.location;
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.removeItem('needsProfileCompletion');
+          
+          // Remove modal
+          document.getElementById('profile-completion-modal').remove();
+          
+          // Update UI
+          showToast('success', 'Profile completed successfully!');
+          
+          // Reload profile to show updated location
+          loadProfile();
+        } else {
+          showToast('error', data.message || 'Failed to complete profile');
+        }
+      } catch (error) {
+        console.error('Profile completion error:', error);
+        showToast('error', 'Network error. Please try again.');
+      }
+    }
+
+    function skipProfileCompletion() {
+      // Close modal but keep the flag - they can complete later from profile section
+      document.getElementById('profile-completion-modal').remove();
+      showToast('info', 'You can complete your profile from the Profile section anytime');
+    }
+
+    // Initialize everything with profile completion check
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setupNavigation();
+        loadProfile();
+        loadInventory();
+        loadOrders();
+        loadEarnings();
+        loadNotifications();
+        connectWebSocket();
+        
+        // Add floating sell button
+        const sellButton = document.createElement('button');
+        sellButton.className = 'floating-sell-btn';
+        sellButton.innerHTML = '&plus;';
+        sellButton.title = 'Add New Product';
+        sellButton.onclick = toggleSellPanel;
+        document.body.appendChild(sellButton);
+        
+        // Check if profile needs completion
+        setTimeout(checkProfileCompletion, 1000); // Delay to ensure UI is ready
+      });
+    } else {
+      setupNavigation();
+      loadProfile();
+      loadInventory();
+      loadOrders();
+      loadEarnings();
+      loadNotifications();
+      connectWebSocket();
+      
+      // Add floating sell button
+      const sellButton = document.createElement('button');
+      sellButton.className = 'floating-sell-btn';
+      sellButton.innerHTML = '&plus;';
+      sellButton.title = 'Add New Product';
+      sellButton.onclick = toggleSellPanel;
+      document.body.appendChild(sellButton);
+      
+      // Check if profile needs completion
+      setTimeout(checkProfileCompletion, 1000);
+    }
+  </script>
+  
+  <!-- Sell Panel Script -->
+  <script src="/js/sell-panel.js"></script>
+</body>
+</html>

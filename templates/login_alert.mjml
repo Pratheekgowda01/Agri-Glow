@@ -1,0 +1,46 @@
+<mjml>
+  <mj-head>
+    <mj-title>Agri Glow Login Alert</mj-title>
+    <mj-font name="Poppins" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600" />
+    <mj-attributes>
+      <mj-all font-family="Poppins, Arial" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f4f4f4">
+    <mj-section background-color="#ffffff" padding="20px 0">
+      <mj-column>
+  <mj-image src="https://raw.githubusercontent.com/Pratheekgowda01/Agri-Glow/main/agriglowlogo.jpg" alt="Agri Glow Logo" width="150px" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column>
+        <mj-text font-size="24px" font-weight="600" color="#00CC99">
+          Login Alert
+        </mj-text>
+        <mj-text font-size="16px" color="#333333" line-height="24px">
+          Hello {{name}},
+        </mj-text>
+        <mj-text font-size="16px" color="#333333" line-height="24px">
+          This is to inform you that your Agri Glow account was accessed on:
+        </mj-text>
+        <mj-text font-size="16px" color="#333333" line-height="24px">
+          <strong>Date/Time:</strong> {{loginTime}}<br />
+          <strong>Role:</strong> {{role}}<br />
+          <strong>IP Address:</strong> {{ip}}
+        </mj-text>
+        <mj-text font-size="16px" color="#333333" line-height="24px">
+          If this wasn't you, please contact our support team immediately.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="20px">
+      <mj-column>
+        <mj-text font-size="14px" color="#666666" align="center">
+          &copy; 2025 Agri Glow. All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

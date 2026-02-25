@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buyer Dashboard - AgriGlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/auth-common.js"></script>
+<script src="/js/buyer-products.js"></script>
+<script src="/js/buyer-purchase.js"></script>
+<script src="/js/buyer-orders.js"></script>
+<script src="/js/buyer-dashboard.js"></script>
+<style>
+:root {
+    --primary: #22c55e;
+    --primary-dark: #16a34a;
+    --primary-light: #4ade80;
+    --secondary: #0ea5e9;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f172a;
+    --dark-light: #1e293b;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    --gray-900: #0f172a;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --radius: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    visibility: hidden;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+    font-family: 'Inter', 'Poppins', sans-serif;
+    color: var(--gray-900);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    box-shadow: var(--shadow-md);
+    padding: 1rem 0;
+    border-bottom: none;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand::before {
+    content: '🌱';
+    font-size: 1.75rem;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    margin: 0 0.25rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white !important;
+    transform: translateY(-1px);
+}
+
+.navbar-nav .nav-link i {
+    margin-right: 0.5rem;
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    padding: 2rem 1rem;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title::before {
+    content: '';
+    width: 4px;
+    height: 2rem;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+    border-radius: 2px;
+}
+
+/* Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    padding: 1.5rem;
+}
+
+.glass-card:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+}
+
+/* Product Cards */
+.product-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid var(--gray-200);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+}
+
+.product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.status-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-md);
+}
+
+.product-card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-card .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.product-card .card-text {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.product-card .price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.product-card .price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.product-card .unit {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    font-weight: 400;
+}
+
+.product-card .stock-badge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-outline-success {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+}
+
+.btn-outline-success:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Recommendations */
+.recommendations-viewport {
+    overflow: hidden;
+    position: relative;
+    padding: 1rem 0;
+}
+
+.recommendations-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-300) transparent;
+}
+
+.recommendations-track::-webkit-scrollbar {
+    height: 6px;
+}
+
+.recommendations-track::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.recommendations-track::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 3px;
+}
+
+.recommendation-card {
+    min-width: 280px;
+    max-width: 280px;
+    flex: 0 0 auto;
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.recommendation-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+}
+
+.recommendation-card h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+/* Trending Products */
+.trending-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.trending-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.trending-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+}
+
+.trending-card img {
+    border-radius: var(--radius);
+    object-fit: cover;
+}
+
+/* Orders Table */
+.table-responsive {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-50) 100%);
+}
+
+.table thead th {
+    font-weight: 600;
+    color: var(--gray-900);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: var(--gray-50);
+    transform: scale(1.01);
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Badges */
+.badge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-available {
+    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+    color: white;
+}
+
+.badge-waiting {
+    background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+    color: white;
+}
+
+/* Modals */
+.modal-content {
+    border-radius: var(--radius-xl);
+    border: none;
+    box-shadow: var(--shadow-xl);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 1.5rem;
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--gray-200);
+    padding: 1.5rem 2rem;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-300);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+}
+
+/* Order Summary */
+.order-summary {
+    background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+    border: 2px solid var(--primary-light);
+}
+
+.order-summary h6 {
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+/* Success Modal */
+#orderSuccessModal .modal-header {
+    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+}
+
+#orderSuccessModal .modal-body {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+#orderSuccessModal i {
+    font-size: 5rem;
+    color: var(--success);
+    margin-bottom: 1.5rem;
+}
+
+/* Loading States */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--gray-500);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .product-card {
+        min-height: 340px;
+    }
+    
+    .trending-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .recommendation-card {
+        min-width: 240px;
+        max-width: 240px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Scroll to Top Button */
+.scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow-xl);
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.scroll-top.show {
+    display: flex;
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+<div class="container-fluid">
+<a class="navbar-brand" href="#">AgriGlow</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav me-auto">
+    <li class="nav-item">
+        <a class="nav-link active" href="#" data-section="products">
+            <i class="bx bx-store"></i> Products
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-section="orders">
+            <i class="bx bx-package"></i> My Orders
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-section="wishlist">
+            <i class="bx bx-heart"></i> Wishlist
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-section="notifications">
+            <i class="bx bx-bell"></i> Notifications
+        </a>
+    </li>
+</ul>
+<div class="d-flex align-items-center gap-3">
+    <div class="text-light">
+        <small class="d-block" style="opacity: 0.8;">Welcome back,</small>
+        <strong id="userName">User</strong>
+    </div>
+    <button class="btn btn-outline-light" id="logoutBtn">
+        <i class="bx bx-log-out"></i> Logout
+    </button>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <!-- Products Section -->
+    <section id="products-section" class="fade-in">
+        <h2 class="section-title">
+            <i class="bx bx-store"></i>
+            Fresh Products Marketplace
+        </h2>
+        
+        <!-- AI Recommendations -->
+        <div class="glass-card mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0" style="font-size: 1.375rem; font-weight: 600;">
+                    <i class="bx bx-star text-warning"></i> Recommended for You
+                </h3>
+                <small class="text-muted">Curated just for you</small>
+            </div>
+            <div class="recommendations-viewport">
+                <div id="recommendationsCarousel" class="recommendations-track"></div>
+            </div>
+        </div>
+        
+        <!-- Trending Products -->
+        <div class="glass-card mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0" style="font-size: 1.375rem; font-weight: 600;">
+                    <i class="bx bx-trending-up text-danger"></i> Trending Now
+                </h3>
+                <small class="text-muted">Most popular this week</small>
+            </div>
+            <div class="trending-list" id="trendingContainer"></div>
+        </div>
+        
+        <!-- All Products -->
+        <div class="glass-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0" style="font-size: 1.375rem; font-weight: 600;">
+                    <i class="bx bx-grid-alt"></i> All Products
+                </h3>
+            </div>
+            <div class="row g-4" id="productsContainer"></div>
+        </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section id="orders-section" style="display:none;" class="fade-in">
+        <h2 class="section-title">
+            <i class="bx bx-package"></i>
+            My Orders
+        </h2>
+        <div class="table-responsive glass-card">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Products</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Wishlist Section -->
+    <section id="wishlist-section" style="display:none;" class="fade-in">
+        <h2 class="section-title">
+            <i class="bx bx-heart"></i>
+            My Wishlist
+        </h2>
+        <div id="wishlistContainer" class="glass-card p-4">
+            <div class="empty-state">
+                <i class="bx bx-heart-circle"></i>
+                <h4>Your wishlist is empty</h4>
+                <p>Start adding products you love!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notifications Section -->
+    <section id="notifications-section" style="display:none;" class="fade-in">
+        <h2 class="section-title">
+            <i class="bx bx-bell"></i>
+            Notifications
+        </h2>
+        <div class="glass-card p-4" id="notificationsContainer">
+            <div class="empty-state">
+                <i class="bx bx-bell-off"></i>
+                <h4>No notifications</h4>
+                <p>You're all caught up!</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Scroll to Top Button -->
+<button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <i class="bx bx-chevron-up"></i>
+</button>
+
+<!-- Product Purchase Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bx bx-shopping-bag"></i> Complete Your Purchase
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="purchaseForm">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="bx bx-info-circle text-primary"></i> Product Details
+                                    </h6>
+                                    <div id="modalProductDetails"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="bx bx-cart text-primary"></i> Order Quantity
+                                    </h6>
+                                    <div class="input-group input-group-lg">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity(-1)">
+                                            <i class="bx bx-minus"></i>
+                                        </button>
+                                        <input type="number" class="form-control text-center fw-bold" id="orderQuantity" min="1" value="1">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity(1)">
+                                            <i class="bx bx-plus"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-muted d-block mt-2" id="quantityHelp"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3">
+                                <i class="bx bx-map text-primary"></i> Shipping Details
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" id="shippingName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="shippingPhone" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Address Line 1 *</label>
+                                    <input type="text" class="form-control" id="shippingAddress1" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Address Line 2</label>
+                                    <input type="text" class="form-control" id="shippingAddress2">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">City *</label>
+                                    <input type="text" class="form-control" id="shippingCity" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">State *</label>
+                                    <input type="text" class="form-control" id="shippingState" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">PIN Code *</label>
+                                    <input type="text" class="form-control" id="shippingPincode" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3">
+                                <i class="bx bx-credit-card text-primary"></i> Payment Method
+                            </h6>
+                            <select class="form-select form-select-lg" id="paymentMethod" required>
+                                <option value="">Select payment method</option>
+                                <option value="upi">💳 UPI Payment</option>
+                                <option value="card">💳 Credit/Debit Card</option>
+                                <option value="netbanking">🏦 Net Banking</option>
+                                <option value="cod">💰 Cash on Delivery</option>
+                            </select>
+                            <div id="paymentMethodDetails" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3">
+                                <i class="bx bx-receipt text-primary"></i> Order Summary
+                            </h6>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Subtotal:</span>
+                                <span id="subtotalAmount">₹0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Shipping:</span>
+                                <span id="shippingAmount">₹0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Tax (GST):</span>
+                                <span id="taxAmount">₹0.00</span>
+                            </div>
+                            <hr class="my-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold fs-5">Total:</span>
+                                <span class="fw-bold fs-4 text-primary" id="totalAmount">₹0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bx bx-x"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-success btn-lg" onclick="confirmPurchase()">
+                    <i class="bx bx-check"></i> Confirm Purchase
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Success Modal -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bx bx-check-circle"></i> Order Successful!
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-4">
+                    <i class="bx bx-check-circle text-success" style="font-size: 5rem;"></i>
+                </div>
+                <h4 class="mb-3 fw-bold">Thank you for your purchase! 🎉</h4>
+                <p class="text-muted mb-2">Your order ID: <strong id="successOrderId" class="text-primary"></strong></p>
+                <p class="text-muted">An invoice has been sent to your email.</p>
+                <div class="mt-4 d-flex gap-2 justify-content-center">
+                    <button type="button" class="btn btn-outline-success" onclick="viewOrder()">
+                        <i class="bx bx-package"></i> View Order
+                    </button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="bx bx-store"></i> Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Scroll to top functionality
+window.addEventListener('scroll', function() {
+    const scrollTop = document.querySelector('.scroll-top');
+    if (window.pageYOffset > 300) {
+        scrollTop.classList.add('show');
+    } else {
+        scrollTop.classList.remove('show');
+    }
+});
+</script>
+</body>
+</html>
